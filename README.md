@@ -2,9 +2,26 @@
 
 A local tool for maintaining evidence-backed project instructions. Version 0.1.0 combines a reusable authoring skill, a standard-library Python CLI, and a Codex plugin manifest. It needs no model API key or service. The skill runs inside the coding agent you already use.
 
-## Install the CLI once
+## Run with uvx or install once
 
-Requires Python 3.11+; Git for inventory; macOS or Linux for running checks. Clone the private repository using your authenticated GitHub account, then install:
+Requires Python 3.11+; Git for inventory; macOS or Linux for running checks. Run the CLI from PyPI without a permanent installation:
+
+```sh
+uvx agent-baseline --help
+uvx agent-baseline inspect .
+uvx agent-baseline check .
+uvx agent-baseline verify .
+```
+
+For a persistent installation:
+
+```sh
+uv tool install agent-baseline
+```
+
+Pin a version for reproducible automation, for example `uvx agent-baseline@0.1.0 check .`. These commands operate on the current project; `check` and `verify` require its configured baseline. Verification runs in the caller's environment, so declared commands must select the project's runtime explicitly where needed (for example, `uv run pytest`).
+
+To develop the tool or obtain the agent skill, clone the public repository:
 
 ```sh
 gh repo clone rhymiz/agent-baseline
@@ -70,7 +87,7 @@ The skill offers a model-evaluation protocol when requested. Automated model tri
 | `check [project]` | Detects drift in the monitored files. No project commands execute. |
 | `verify [project]` | Runs every explicitly declared project check and reports pass/failure/timeout/blocked status. |
 
-All commands emit JSON. Exit codes are 0 for operation success, 1 for drift or failed verification, and 2 for invalid input/configuration or prerequisite errors. Run `--help` for invocation syntax. See [the record specification](skills/baseline-project/references/project-record.md) for configuration and limitations.
+All commands emit JSON. Exit codes are 0 for operation success, 1 for drift or failed verification, and 2 for invalid input/configuration or prerequisite errors. Run `--help` for invocation syntax. See [the record specification](https://github.com/rhymiz/agent-baseline/blob/main/skills/baseline-project/references/project-record.md) for configuration and limitations.
 
 Use `record` only after semantic review. Never run it automatically in a CI validation job before `check`. A hash change means guidance needs review, not necessarily rewriting. A matching hash means files are unchanged, not that their claims are correct.
 
@@ -83,3 +100,9 @@ python3 -m unittest discover -s tests -v
 ```
 
 Tests use temporary project fixtures and real child commands. They cover evidence drift, missing and malformed inputs, path escape rejection, command failures/timeouts, working directories, and mutation during verification.
+
+## Publishing
+
+Publishing a GitHub release with a tag matching `v<project.version>` triggers `.github/workflows/publish.yml`. The workflow verifies the evidence and tests, builds and checks distributions, tests the wheel outside the checkout, and publishes through the `pypi` environment using PyPI Trusted Publishing. No PyPI API token is stored in the repository.
+
+The PyPI publisher is scoped to project `agent-baseline`, GitHub owner `rhymiz`, repository `agent-baseline`, workflow `publish.yml`, and environment `pypi`. PyPI distributions contain the CLI; the authoring skill remains available in the GitHub repository and Codex plugin.

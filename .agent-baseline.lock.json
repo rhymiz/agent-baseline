@@ -1,10 +1,11 @@
 {
   "schema_version": 1,
   "files": {
-    ".agent-baseline.json": "b927bab3fd646c186c73baa621efe916a2305517f13e66c25429d6f3e1ead7f7",
+    ".agent-baseline.json": "1ab6aa0afaa829065c266f70b186129b27f04358ecfcc84246fbf8594e698a23",
     ".github/workflows/check.yml": "c84ca7cd403136e950efcea4e939ed0bc8908c88dc86567f080fd4f294bbafb2",
-    "AGENTS.md": "25aa05200d263dcb80c4dee54fc437c23ad4acddb9181a17c11cecf57a7700d0",
-    "pyproject.toml": "2c7299a816a1906cd2a4981df6bad83ce4f9ce6c5f9cc8c8f16ca8033f0ff67d",
+    ".github/workflows/publish.yml": "3287a65d8854be1f86f01c13f84c9a81c1318c074db213a9436681f05031b844",
+    "AGENTS.md": "143cf43a14563e1846f0b168773aa365996fffd47ad2564d02b9e9e298d10d71",
+    "pyproject.toml": "e0c8b74c510224e1a697b1027c3059e021c403e4bbd76d9c8b0b82d225629ef8",
     "skills/baseline-project/references/project-record.md": "1351fcfc01561e0c2a2c6a02af976acb8f0cd1a08244676a1df2f40148010223",
     "skills/baseline-project/scripts/baseline.py": "d12807de25f3154bb3db27e7e82145e2d57f0b4fd9d625e80fe7a82e90eb5e39",
     "tests/test_baseline.py": "40b97aa706d63e799870c155c26826846b272a4c9ffad7aedde632e05832de29"

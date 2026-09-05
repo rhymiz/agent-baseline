@@ -10,4 +10,6 @@ Run `python3 -m unittest discover -s tests -v` from the package root. Fixtures u
 
 CI in `.github/workflows/check.yml` installs the CLI and runs `agent-baseline verify .` on Python 3.11 and 3.14. It validates the recorded evidence without automatically recording a new baseline.
 
+The PyPI package and executable are both named `agent-baseline`. `.github/workflows/publish.yml` publishes only on GitHub releases whose tag matches the package version. Keep builds and verification in the unprivileged build job; the separate `pypi` environment job alone receives OIDC publishing permission.
+
 Do not equate hash freshness with semantic correctness or test success with model parity. Skill discovery and model performance require separate behavioral evaluation.

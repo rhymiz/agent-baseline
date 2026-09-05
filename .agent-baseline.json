@@ -6,6 +6,7 @@
       "sources": [
         "pyproject.toml",
         ".github/workflows/check.yml",
+        ".github/workflows/publish.yml",
         "skills/baseline-project/scripts/baseline.py",
         "tests/test_baseline.py"
       ]
