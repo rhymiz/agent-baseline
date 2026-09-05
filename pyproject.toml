@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-baseline-local"
+version = "0.1.0"
+description = "Evidence-backed project guidance and verification for coding agents"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+agent-baseline = "baseline:main"
+
+[tool.setuptools]
+py-modules = ["baseline"]
+package-dir = {"" = "skills/baseline-project/scripts"}

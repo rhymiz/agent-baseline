@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "files": {
+    ".agent-baseline.json": "b927bab3fd646c186c73baa621efe916a2305517f13e66c25429d6f3e1ead7f7",
+    ".github/workflows/check.yml": "c84ca7cd403136e950efcea4e939ed0bc8908c88dc86567f080fd4f294bbafb2",
+    "AGENTS.md": "25aa05200d263dcb80c4dee54fc437c23ad4acddb9181a17c11cecf57a7700d0",
+    "pyproject.toml": "2c7299a816a1906cd2a4981df6bad83ce4f9ce6c5f9cc8c8f16ca8033f0ff67d",
+    "skills/baseline-project/references/project-record.md": "1351fcfc01561e0c2a2c6a02af976acb8f0cd1a08244676a1df2f40148010223",
+    "skills/baseline-project/scripts/baseline.py": "d12807de25f3154bb3db27e7e82145e2d57f0b4fd9d625e80fe7a82e90eb5e39",
+    "tests/test_baseline.py": "40b97aa706d63e799870c155c26826846b272a4c9ffad7aedde632e05832de29"
+  }
+}

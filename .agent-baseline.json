@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "artifacts": [
+    {
+      "path": "AGENTS.md",
+      "sources": [
+        "pyproject.toml",
+        ".github/workflows/check.yml",
+        "skills/baseline-project/scripts/baseline.py",
+        "tests/test_baseline.py"
+      ]
+    },
+    {
+      "path": "skills/baseline-project/references/project-record.md",
+      "sources": [
+        "skills/baseline-project/scripts/baseline.py",
+        "tests/test_baseline.py"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "integration-tests",
+      "argv": ["python3", "-m", "unittest", "discover", "-s", "tests", "-v"],
+      "cwd": ".",
+      "timeout_seconds": 60
+    }
+  ]
+}
