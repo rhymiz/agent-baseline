@@ -47,6 +47,11 @@ jobs:
           "$RUNNER_TEMP/wheel-test/bin/python" -m pip install --no-deps dist/*.whl
           cd "$RUNNER_TEMP"
           "$RUNNER_TEMP/wheel-test/bin/agent-baseline" --help
+          "$RUNNER_TEMP/wheel-test/bin/agent-baseline" skill show
+          "$RUNNER_TEMP/wheel-test/bin/agent-baseline" skill install --agent codex --scope project
+          test -s .agents/skills/baseline-project/SKILL.md
+          test -s .agents/skills/baseline-project/references/project-record.md
+          test -s .agents/skills/baseline-project/references/evaluate.md
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: distributions

@@ -32,7 +32,7 @@ Illustrative example only: these paths and commands must be replaced with eviden
 
 The check `argv` is an argument array, not a shell string. Environment setup belongs in the documented runtime or a maintained script. Commands inherit the caller's environment. The CLI invokes the executable directly, but declared commands can themselves execute arbitrary code. Use `verify` only in a trusted project, after inspecting the record. Do not put secrets in command arguments.
 
-Commands, using the installed CLI or `python3 <skill-directory>/scripts/baseline.py`:
+Commands, using `uvx agent-baseline@0.1.1` or the matching installed CLI:
 
 - `inspect <project>`: inventory candidate paths; no project code runs.
 - `record <project>`: validate the record and atomically store hashes of the config, artifacts, and sources. Run only after reviewing guidance. Does not execute checks.

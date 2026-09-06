@@ -12,6 +12,8 @@ import subprocess
 import sys
 import tempfile
 from dataclasses import dataclass
+from enum import Enum
+from importlib.resources import files
 from pathlib import Path
 
 CONFIG = ".agent-baseline.json"
@@ -241,13 +243,92 @@ def execute(command: str, root: Path) -> tuple[dict[str, object], int]:
     return {"status": "passed" if passed else "not_passed", "checks": results, "monitored_inputs_changed": before != after, "evidence_sha256": hashlib.sha256(json.dumps(before, sort_keys=True).encode()).hexdigest(), "scope": "Declared checks and monitored files only; not a full-worktree attestation or proof of architectural quality."}, 0 if passed else 1
 
 
+class Agent(Enum):
+    CODEX = "codex"
+    CLAUDE = "claude"
+
+    @property
+    def directory(self) -> str:
+        return {Agent.CODEX: ".agents", Agent.CLAUDE: ".claude"}[self]
+
+
+class Scope(Enum):
+    PROJECT = "project"
+    USER = "user"
+
+
+@dataclass(frozen=True)
+class SkillFile:
+    path: str
+    content: bytes
+
+
+def skill_files() -> tuple[SkillFile, ...]:
+    root = files("agent_baseline_guidance").joinpath("baseline-project")
+    paths = ["SKILL.md"] + ["references/" + child.name for child in sorted(root.joinpath("references").iterdir(), key=lambda item: item.name) if child.is_file() and child.name.endswith(".md")]
+    return tuple(SkillFile(path, root.joinpath(path).read_bytes()) for path in paths)
+
+
+def install_skill(agent: Agent, scope: Scope, project: Path) -> dict[str, object]:
+    root = Path.home() if scope is Scope.USER else project.expanduser().resolve()
+    if not root.is_dir():
+        raise InvalidBaseline(f"Installation root is not a directory: {root}")
+    destination = root / agent.directory / "skills" / "baseline-project"
+    bundle = skill_files()
+    if destination.is_symlink():
+        raise InvalidBaseline(f"Refusing to replace linked skill: {destination}")
+    if destination.exists():
+        expected = {item.path: item.content for item in bundle}
+        existing: dict[str, bytes] = {}
+        if not destination.is_dir():
+            raise InvalidBaseline(f"Skill destination is not a directory: {destination}")
+        for path in destination.rglob("*"):
+            if path.is_symlink():
+                raise InvalidBaseline(f"Existing skill contains a symlink: {path}")
+            if path.is_file():
+                existing[path.relative_to(destination).as_posix()] = path.read_bytes()
+        if existing != expected:
+            raise InvalidBaseline(f"Existing skill differs: {destination}. Review and move it aside before installing; no files were overwritten.")
+        status = "current"
+    else:
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix=".baseline-install-", dir=destination.parent) as staging:
+            staged = Path(staging) / "baseline-project"
+            staged.mkdir()
+            for item in bundle:
+                target = staged / item.path
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(item.content)
+            staged.rename(destination)
+        status = "installed"
+    return {"status": status, "skill": "baseline-project", "destination": str(destination), "files": [item.path for item in bundle], "next": "Start a new agent session and explicitly invoke baseline-project. Host discovery and automatic selection are separate from installation."}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["inspect", "record", "check", "verify"], help="inspect: read candidates; record: snapshot reviewed guidance; check: detect drift; verify: execute all declared project commands")
-    parser.add_argument("project", nargs="?", default=".")
+    commands = parser.add_subparsers(dest="command", required=True)
+    for command, help_text in {"inspect": "read candidate paths", "record": "snapshot reviewed guidance", "check": "detect drift without executing checks", "verify": "execute all declared project checks"}.items():
+        operation = commands.add_parser(command, help=help_text)
+        operation.add_argument("project", nargs="?", default=".")
+    skill = commands.add_parser("skill", help="read bundled guidance or install it for agent discovery")
+    skill_commands = skill.add_subparsers(dest="skill_command", required=True)
+    skill_commands.add_parser("show", help="print the skill and all references as Markdown")
+    install = skill_commands.add_parser("install", help="copy guidance into an agent skill directory; preserve differing existing files")
+    install.add_argument("--agent", required=True, choices=[agent.value for agent in Agent])
+    install.add_argument("--scope", required=True, choices=[scope.value for scope in Scope])
+    install.add_argument("--project", default=None, help="existing project directory for project scope (default: current directory)")
     args = parser.parse_args()
     try:
-        report, code = execute(args.command, Path(args.project).expanduser().resolve())
+        if args.command == "skill":
+            if args.skill_command == "show":
+                print("\n\n".join(f"# File: {item.path}\n\n{item.content.decode('utf-8')}" for item in skill_files()))
+                return 0
+            scope = Scope(args.scope)
+            if scope is Scope.USER and args.project is not None:
+                raise InvalidBaseline("--project cannot be used with --scope user")
+            report, code = install_skill(Agent(args.agent), scope, Path(args.project or ".")), 0
+        else:
+            report, code = execute(args.command, Path(args.project).expanduser().resolve())
     except (InvalidBaseline, OSError, ValueError) as error:
         report, code = {"status": "invalid", "error": str(error)}, 2
     print(json.dumps(report, indent=2))

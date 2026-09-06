@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-CLI = Path(__file__).resolve().parents[1] / "skills/baseline-project/scripts/baseline.py"
+CLI = [sys.executable, "-m", "baseline"]
 
 
 class BaselineTests(unittest.TestCase):
@@ -31,7 +31,7 @@ class BaselineTests(unittest.TestCase):
         (self.root / ".agent-baseline.json").write_text(json.dumps(self.config))
 
     def invoke(self, command: str, expected_code: int = 0) -> dict[str, object]:
-        result = subprocess.run([sys.executable, str(CLI), command, str(self.root)], capture_output=True, text=True, timeout=15)
+        result = subprocess.run([*CLI, command, str(self.root)], capture_output=True, text=True, timeout=15)
         self.assertEqual(result.returncode, expected_code, result.stdout + result.stderr)
         payload: object = json.loads(result.stdout)
         if not isinstance(payload, dict):

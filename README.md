@@ -1,6 +1,6 @@
 # Agent Baseline
 
-A local tool for maintaining evidence-backed project instructions. Version 0.1.0 combines a reusable authoring skill, a standard-library Python CLI, and a Codex plugin manifest. It needs no model API key or service. The skill runs inside the coding agent you already use.
+A local tool for maintaining evidence-backed project instructions. Version 0.1.1 combines a reusable authoring skill, a standard-library Python CLI, and a Codex plugin manifest. It needs no model API key or service. The skill runs inside the coding agent you already use.
 
 ## Run with uvx or install once
 
@@ -19,52 +19,53 @@ For a persistent installation:
 uv tool install agent-baseline
 ```
 
-Pin a version for reproducible automation, for example `uvx agent-baseline@0.1.0 check .`. These commands operate on the current project; `check` and `verify` require its configured baseline. Verification runs in the caller's environment, so declared commands must select the project's runtime explicitly where needed (for example, `uv run pytest`).
+Pin a version for reproducible automation, for example `uvx agent-baseline@0.1.1 check .`. These commands operate on the current project; `check` and `verify` require its configured baseline. Verification runs in the caller's environment, so declared commands must select the project's runtime explicitly where needed (for example, `uv run pytest`).
 
-To develop the tool or obtain the agent skill, clone the public repository:
+## Make the guidance available to your agent
 
-```sh
-gh repo clone rhymiz/agent-baseline
-cd agent-baseline
-uv tool install .
-```
+`uvx` runs the executable in an isolated environment. It does not register skills with your agent. The PyPI package includes the complete guidance; choose one of these entrypoints.
 
-If you already have a checkout, run `uv tool install .` from its root. The GitHub repository is the maintained source; project-specific guidance and baseline records belong in each project repository.
-
-Or run directly without installation:
+**Install once for all your local projects:**
 
 ```sh
-python3 skills/baseline-project/scripts/baseline.py inspect /absolute/project/path
+uvx agent-baseline@0.1.1 skill install --agent codex --scope user
+# Or for Claude Code:
+uvx agent-baseline@0.1.1 skill install --agent claude --scope user
 ```
 
-The installed command works from any project:
+**Share it with a project team:** run from the project root and commit the resulting skill directory.
 
 ```sh
-agent-baseline inspect .
-agent-baseline check .
-agent-baseline verify .
+uvx agent-baseline@0.1.1 skill install --agent codex --scope project
+# Use --agent claude for Claude Code, or --project /absolute/path for another project.
 ```
 
-The CLI installation does not register a skill or plugin with an agent.
+| Host | User directory | Project directory |
+| --- | --- | --- |
+| Codex | `~/.agents/skills/baseline-project/` | `.agents/skills/baseline-project/` |
+| Claude Code | `~/.claude/skills/baseline-project/` | `.claude/skills/baseline-project/` |
+
+The installer copies `SKILL.md` and all references into persistent files, independent of uv's cache. Repeating the same installation is harmless. If any existing file differs, it refuses to overwrite the directory: review it and move it aside before installing an update. Updating the CLI alone does not update installed skill copies. The skill pins its CLI version to keep their contracts aligned.
+
+Start a new agent session and explicitly invoke `$baseline-project` in Codex or `/baseline-project` in Claude Code (or select it in the host's skill picker). Confirm it appears in that host before relying on discovery. Installation makes the skill available; it does not guarantee automatic selection or compliance. User-scoped files are local to that machine; remote sessions need the committed project skill or their own installation.
+
+**Without native skill support or persistent installation:** tell the agent:
+
+> Run `uvx agent-baseline@0.1.1 skill show`, read the complete output including its references, and use that guidance to set up this project's agent baseline.
+
+`skill show` prints all guidance as Markdown with file headings. It does not modify files. This is also an explicit bootstrap for agents that can run commands but cannot discover installed skills.
 
 This package is also a configured example project: from its root, run `agent-baseline check .` and `agent-baseline verify .`. Its declared check executes the integration suite against the tool itself. Inspect its `AGENTS.md` and `.agent-baseline.json` to see a populated record.
 
 ## Set up a project with an agent
 
-Give your agent the absolute path to `skills/baseline-project/SKILL.md` and this request:
+After installing the skill or supplying `skill show` output, ask:
 
-> Use this skill to set up an agent baseline for the current project. Ground every rule in inspected code, contracts, or commands. Preserve existing instructions and unrelated edits. Create the project evidence record, run the relevant development checks, and report anything unverified.
+> Use baseline-project to set up an agent baseline for the current project. Ground every rule in inspected code, contracts, or commands. Preserve existing instructions and unrelated edits. Create the project evidence record, run the relevant development checks, and report anything unverified.
 
 The skill writes or improves a small root instruction file, relevant task routing and domain guidance, and `.agent-baseline.json`. It records the reviewed hashes in `.agent-baseline.lock.json`. These project files belong in version control. The helper does not generate guidance from filenames; the agent inspects the actual evidence first.
 
-For global discovery, copy the entire `skills/baseline-project` folder into a user skill directory supported by your host, preserving scripts and references. Codex and Claude Code also support linked skill folders. Alternatively, install the supplied Codex plugin through a configured local marketplace. The plugin is packaged here but is not registered or installed globally.
-
-| Host | User skill destination |
-| --- | --- |
-| Codex | `~/.agents/skills/baseline-project/` |
-| Claude Code | `~/.claude/skills/baseline-project/` |
-
-Preserve an existing destination if one is already present; review and update it rather than overwriting blindly. After the host discovers the skill, invoke it by name: `$baseline-project` in Codex CLI/IDE or `/baseline-project` in Claude Code. In other surfaces, select it through the skill picker. Other agents can read the same `SKILL.md` by absolute path and use the CLI without the Codex manifest.
+The GitHub repository also includes a Codex plugin manifest for hosts using a configured plugin marketplace. CLI installation does not register that plugin.
 
 Codex skill authoring/discovery: [official docs](https://learn.chatgpt.com/docs/build-skills). Claude Code skill loading: [official docs](https://code.claude.com/docs/en/skills). Codex local plugin packaging: [official docs](https://developers.openai.com/plugins/build/plugins).
 
@@ -82,12 +83,14 @@ The skill offers a model-evaluation protocol when requested. Automated model tri
 
 | Command | Behavior |
 | --- | --- |
+| `skill show` | Prints the bundled skill and references as Markdown. |
+| `skill install --agent codex\|claude --scope user\|project [--project PATH]` | Copies complete guidance for native discovery, preserving differing existing skills. |
 | `inspect [project]` | Finds candidate instructions, manifests, CI files, and contracts. Reads filenames; does not execute project commands. |
 | `record [project]` | Snapshots the config, guidance, and supporting files after review. Does not certify quality. |
 | `check [project]` | Detects drift in the monitored files. No project commands execute. |
 | `verify [project]` | Runs every explicitly declared project check and reports pass/failure/timeout/blocked status. |
 
-All commands emit JSON. Exit codes are 0 for operation success, 1 for drift or failed verification, and 2 for invalid input/configuration or prerequisite errors. Run `--help` for invocation syntax. See [the record specification](https://github.com/rhymiz/agent-baseline/blob/main/skills/baseline-project/references/project-record.md) for configuration and limitations.
+Project commands and `skill install` emit JSON; successful `skill show` emits Markdown. Exit codes are 0 for operation success, 1 for drift or failed verification, and 2 for invalid input/configuration or prerequisite errors. Run `--help` for invocation syntax. See [the record specification](https://github.com/rhymiz/agent-baseline/blob/main/skills/baseline-project/references/project-record.md) for configuration and limitations.
 
 Use `record` only after semantic review. Never run it automatically in a CI validation job before `check`. A hash change means guidance needs review, not necessarily rewriting. A matching hash means files are unchanged, not that their claims are correct.
 
@@ -96,6 +99,7 @@ In CI, use a pinned copy/version of the CLI, run `check`, then the project's req
 ## Development verification
 
 ```sh
+python3 -m pip install -e .
 python3 -m unittest discover -s tests -v
 ```
 
@@ -105,4 +109,4 @@ Tests use temporary project fixtures and real child commands. They cover evidenc
 
 Publishing a GitHub release with a tag matching `v<project.version>` triggers `.github/workflows/publish.yml`. The workflow verifies the evidence and tests, builds and checks distributions, tests the wheel outside the checkout, and publishes through the `pypi` environment using PyPI Trusted Publishing. No PyPI API token is stored in the repository.
 
-The PyPI publisher is scoped to project `agent-baseline`, GitHub owner `rhymiz`, repository `agent-baseline`, workflow `publish.yml`, and environment `pypi`. PyPI distributions contain the CLI; the authoring skill remains available in the GitHub repository and Codex plugin.
+The PyPI publisher is scoped to project `agent-baseline`, GitHub owner `rhymiz`, repository `agent-baseline`, workflow `publish.yml`, and environment `pypi`. Both the wheel and source distribution contain the CLI, skill, and references. Release smoke tests read and install the guidance from the built wheel outside the checkout.

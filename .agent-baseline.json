@@ -8,7 +8,9 @@
         ".github/workflows/check.yml",
         ".github/workflows/publish.yml",
         "skills/baseline-project/scripts/baseline.py",
-        "tests/test_baseline.py"
+        "tests/test_baseline.py",
+        "tests/test_skills.py",
+        "skills/__init__.py"
       ]
     },
     {
@@ -17,12 +19,28 @@
         "skills/baseline-project/scripts/baseline.py",
         "tests/test_baseline.py"
       ]
+    },
+    {
+      "path": "skills/baseline-project/SKILL.md",
+      "sources": [
+        "pyproject.toml",
+        "skills/baseline-project/scripts/baseline.py",
+        "tests/test_skills.py"
+      ]
     }
   ],
   "checks": [
     {
       "name": "integration-tests",
-      "argv": ["python3", "-m", "unittest", "discover", "-s", "tests", "-v"],
+      "argv": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-v"
+      ],
       "cwd": ".",
       "timeout_seconds": 60
     }

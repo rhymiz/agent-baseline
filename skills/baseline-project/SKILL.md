@@ -7,7 +7,7 @@ description: Set up, audit, or refresh evidence-backed AGENTS.md instructions, d
 
 Produce concise project guidance grounded in inspected contracts, code, and commands. Use the user's existing engineering preferences. Treat this as improving the environment around agents, not making a claim of equal model capability.
 
-The deterministic helper is [scripts/baseline.py](scripts/baseline.py), relative to this skill directory. It requires Python 3.11+ and Git for inventory. Verification runs on macOS or Linux. Use its absolute resolved path, or the installed `agent-baseline` command. The helper has no model or API dependency.
+Run the deterministic CLI with `uvx agent-baseline@0.1.1 <command> <project>` (requires uv and Python 3.11+), or an installed matching `agent-baseline` version. Git supports inventory; verification runs on macOS or Linux. The CLI has no model or API dependency. This skill and its references are persistent copies; they do not depend on the uv cache. If reading `skill show` output, the linked references are included under their file headings.
 
 ## Choose the requested operation
 
@@ -20,7 +20,7 @@ Infer the operation from the request. Do not make an ordinary code change trigge
 
 ## Inspect before authoring
 
-Resolve the exact project directory and applicable existing instructions. Run `python3 <skill-directory>/scripts/baseline.py inspect <project>` for candidate paths, then inspect the relevant files. Inventory matches are not evidence of authority.
+Resolve the exact project directory and applicable existing instructions. Run `uvx agent-baseline@0.1.1 inspect <project>` for candidate paths, then inspect the relevant files. Inventory matches are not evidence of authority.
 
 Establish the language/runtime versions, declared package commands, CI entrypoints, test prerequisites, existing agent configuration, and the ownership of the requested domain. Read root routing first; open only relevant scoped files. Do not read secrets or environment-value files to discover variable names; prefer documented examples and configuration schemas.
 
