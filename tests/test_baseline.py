@@ -7,7 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-CLI = [sys.executable, "-m", "baseline"]
+CLI = [sys.executable, "-m", "agent_baseline"]
 
 
 class BaselineTests(unittest.TestCase):
@@ -24,15 +24,26 @@ class BaselineTests(unittest.TestCase):
         }
         self.write_config()
 
-    def command(self, name: str, program: str, cwd: str = ".", timeout: int = 5) -> dict[str, object]:
-        return {"name": name, "argv": [sys.executable, "-c", program], "cwd": cwd, "timeout_seconds": timeout}
+    def command(
+        self, name: str, program: str, cwd: str = ".", timeout: int = 5
+    ) -> dict[str, object]:
+        return {
+            "name": name,
+            "argv": [sys.executable, "-c", program],
+            "cwd": cwd,
+            "timeout_seconds": timeout,
+        }
 
     def write_config(self) -> None:
         (self.root / ".agent-baseline.json").write_text(json.dumps(self.config))
 
     def invoke(self, command: str, expected_code: int = 0) -> dict[str, object]:
-        result = subprocess.run([*CLI, command, str(self.root)], capture_output=True, text=True, timeout=15)
-        self.assertEqual(result.returncode, expected_code, result.stdout + result.stderr)
+        result = subprocess.run(
+            [*CLI, command, str(self.root)], capture_output=True, text=True, timeout=15
+        )
+        self.assertEqual(
+            result.returncode, expected_code, result.stdout + result.stderr
+        )
         payload: object = json.loads(result.stdout)
         if not isinstance(payload, dict):
             self.fail("Expected a JSON report")
@@ -51,7 +62,9 @@ class BaselineTests(unittest.TestCase):
         self.assertIn("verified", str(report["checks"]))
 
     def test_changed_source_requires_review_and_does_not_run_checks(self) -> None:
-        self.config["checks"] = [self.command("sentinel", "from pathlib import Path; Path('ran').touch()")]
+        self.config["checks"] = [
+            self.command("sentinel", "from pathlib import Path; Path('ran').touch()")
+        ]
         self.write_config()
         self.invoke("record")
         (self.root / "contract.txt").write_text("Changed contract\n")
@@ -72,10 +85,23 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(self.invoke("check", 2)["status"], "invalid")
         self.invoke("record")
         (self.root / "contract.txt").unlink()
-        self.assertEqual(self.invoke("check", 2)["status"], "invalid")
+        report = self.invoke("check", 1)
+        self.assertEqual(report["status"], "needs_review")
+        self.assertEqual(report["missing"], ["contract.txt"])
+        self.assertEqual(
+            report["affected_artifacts"],
+            [
+                {
+                    "path": "AGENTS.md",
+                    "changed_evidence": ["contract.txt"],
+                    "configuration_changed": False,
+                }
+            ],
+        )
+        self.invoke("record", 2)
 
     def test_invalid_schema_unknown_keys_and_empty_checks(self) -> None:
-        for replacement in (True, 2, "1"):
+        for replacement in (True, 3, "1"):
             with self.subTest(replacement=replacement):
                 self.config["schema_version"] = replacement
                 self.write_config()
@@ -104,8 +130,17 @@ class BaselineTests(unittest.TestCase):
         self.invoke("record", 2)
 
     def test_failure_blocked_and_timeout_have_distinct_results(self) -> None:
-        missing = {"name": "missing", "argv": ["/no/such/baseline-test-executable"], "cwd": ".", "timeout_seconds": 1}
-        self.config["checks"] = [self.command("failure", "raise SystemExit(7)"), missing, self.command("timeout", "import time; time.sleep(10)", timeout=1)]
+        missing = {
+            "name": "missing",
+            "argv": ["/no/such/baseline-test-executable"],
+            "cwd": ".",
+            "timeout_seconds": 1,
+        }
+        self.config["checks"] = [
+            self.command("failure", "raise SystemExit(7)"),
+            missing,
+            self.command("timeout", "import time; time.sleep(10)", timeout=1),
+        ]
         self.write_config()
         self.invoke("record")
         report = self.invoke("verify", 1)
@@ -114,7 +149,9 @@ class BaselineTests(unittest.TestCase):
             self.assertIn(status, str(report["checks"]))
 
     def test_check_is_read_only_and_uses_no_project_commands(self) -> None:
-        self.config["checks"] = [self.command("sentinel", "from pathlib import Path; Path('ran').touch()")]
+        self.config["checks"] = [
+            self.command("sentinel", "from pathlib import Path; Path('ran').touch()")
+        ]
         self.write_config()
         self.invoke("record")
         self.invoke("check")
@@ -122,14 +159,36 @@ class BaselineTests(unittest.TestCase):
 
     def test_configured_working_directory_and_literal_arguments(self) -> None:
         (self.root / "package").mkdir()
-        self.config["checks"] = [self.command("cwd", "from pathlib import Path; assert Path.cwd().name == 'package'", cwd="package"), {"name": "argv", "argv": [sys.executable, "-c", "import sys; assert sys.argv[1] == '$(touch injected)'", "$(touch injected)"], "cwd": ".", "timeout_seconds": 5}]
+        self.config["checks"] = [
+            self.command(
+                "cwd",
+                "from pathlib import Path; assert Path.cwd().name == 'package'",
+                cwd="package",
+            ),
+            {
+                "name": "argv",
+                "argv": [
+                    sys.executable,
+                    "-c",
+                    "import sys; assert sys.argv[1] == '$(touch injected)'",
+                    "$(touch injected)",
+                ],
+                "cwd": ".",
+                "timeout_seconds": 5,
+            },
+        ]
         self.write_config()
         self.invoke("record")
         self.invoke("verify")
         self.assertFalse((self.root / "injected").exists())
 
     def test_mutation_during_verify_cannot_pass(self) -> None:
-        self.config["checks"] = [self.command("mutation", "from pathlib import Path; Path('contract.txt').write_text('changed')")]
+        self.config["checks"] = [
+            self.command(
+                "mutation",
+                "from pathlib import Path; Path('contract.txt').write_text('changed')",
+            )
+        ]
         self.write_config()
         self.invoke("record")
         report = self.invoke("verify", 1)
@@ -144,6 +203,36 @@ class BaselineTests(unittest.TestCase):
         report = self.invoke("inspect")
         self.assertIn("package.json", str(report["candidates"]))
         self.assertNotIn("ignored/AGENTS.md", str(report["candidates"]))
+
+    def test_structural_guidance_failure_prevents_project_command_execution(
+        self,
+    ) -> None:
+        (self.root / "AGENTS.md").write_text("[Missing contract](removed.md)\n")
+        self.config["checks"] = [
+            self.command("sentinel", "from pathlib import Path; Path('ran').touch()")
+        ]
+        self.write_config()
+        self.invoke("record")
+        report = self.invoke("verify", 1)
+        self.assertEqual(report["status"], "not_passed")
+        self.assertFalse((self.root / "ran").exists())
+        self.assertIn("broken_link", str(report["guidance"]))
+
+    def test_invalidated_configuration_during_verification_preserves_check_results(
+        self,
+    ) -> None:
+        self.config["checks"] = [
+            self.command(
+                "mutation",
+                "from pathlib import Path; Path('.agent-baseline.json').write_text('invalid')",
+            )
+        ]
+        self.write_config()
+        self.invoke("record")
+        report = self.invoke("verify", 1)
+        self.assertTrue(report["monitored_inputs_changed"])
+        self.assertIn("mutation", str(report["checks"]))
+        self.assertIn("post_verification_error", report)
 
 
 if __name__ == "__main__":

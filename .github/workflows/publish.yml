@@ -44,11 +44,13 @@ jobs:
       - name: Smoke-test the built wheel outside the checkout
         run: |
           python -m venv "$RUNNER_TEMP/wheel-test"
-          "$RUNNER_TEMP/wheel-test/bin/python" -m pip install --no-deps dist/*.whl
-          cd "$RUNNER_TEMP"
+          "$RUNNER_TEMP/wheel-test/bin/python" -m pip install dist/*.whl
+          mkdir "$RUNNER_TEMP/smoke-project"
+          cd "$RUNNER_TEMP/smoke-project"
           "$RUNNER_TEMP/wheel-test/bin/agent-baseline" --help
           "$RUNNER_TEMP/wheel-test/bin/agent-baseline" skill show
-          "$RUNNER_TEMP/wheel-test/bin/agent-baseline" skill install --agent codex --scope project
+          "$RUNNER_TEMP/wheel-test/bin/agent-baseline" init . --agent codex --agent claude
+          "$RUNNER_TEMP/wheel-test/bin/agent-baseline" doctor . --agent codex --agent claude
           test -s .agents/skills/baseline-project/SKILL.md
           test -s .agents/skills/baseline-project/references/project-record.md
           test -s .agents/skills/baseline-project/references/evaluate.md

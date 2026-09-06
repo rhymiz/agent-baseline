@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "artifacts": [
     {
       "path": "AGENTS.md",
@@ -7,25 +7,103 @@
         "pyproject.toml",
         ".github/workflows/check.yml",
         ".github/workflows/publish.yml",
-        "skills/baseline-project/scripts/baseline.py",
+        "src/agent_baseline/bootstrap.py",
+        "src/agent_baseline/execution.py",
+        "src/agent_baseline/metadata.py",
+        "src/agent_baseline/skills.py",
+        "src/agent_baseline/records.py",
+        "src/agent_baseline/__init__.py",
+        "src/agent_baseline/sources.py",
+        "src/agent_baseline/cli.py",
+        "src/agent_baseline/errors.py",
+        "src/agent_baseline/doctor.py",
+        "src/agent_baseline/__main__.py",
+        "tests/test_doctor.py",
         "tests/test_baseline.py",
         "tests/test_skills.py",
-        "skills/__init__.py"
+        "tests/test_bootstrap.py",
+        "tests/test_sources.py",
+        "tests/test_portability.py"
       ]
     },
     {
-      "path": "skills/baseline-project/references/project-record.md",
+      "path": "README.md",
       "sources": [
-        "skills/baseline-project/scripts/baseline.py",
-        "tests/test_baseline.py"
+        "pyproject.toml",
+        ".github/workflows/publish.yml",
+        "src/agent_baseline/bootstrap.py",
+        "src/agent_baseline/execution.py",
+        "src/agent_baseline/metadata.py",
+        "src/agent_baseline/skills.py",
+        "src/agent_baseline/records.py",
+        "src/agent_baseline/__init__.py",
+        "src/agent_baseline/sources.py",
+        "src/agent_baseline/cli.py",
+        "src/agent_baseline/errors.py",
+        "src/agent_baseline/doctor.py",
+        "src/agent_baseline/__main__.py",
+        "tests/test_doctor.py",
+        "tests/test_baseline.py",
+        "tests/test_skills.py",
+        "tests/test_bootstrap.py",
+        "tests/test_sources.py",
+        "tests/test_portability.py",
+        "examples/evaluation/README.md"
       ]
     },
     {
       "path": "skills/baseline-project/SKILL.md",
       "sources": [
         "pyproject.toml",
-        "skills/baseline-project/scripts/baseline.py",
-        "tests/test_skills.py"
+        "src/agent_baseline/bootstrap.py",
+        "src/agent_baseline/execution.py",
+        "src/agent_baseline/metadata.py",
+        "src/agent_baseline/skills.py",
+        "src/agent_baseline/records.py",
+        "src/agent_baseline/__init__.py",
+        "src/agent_baseline/sources.py",
+        "src/agent_baseline/cli.py",
+        "src/agent_baseline/errors.py",
+        "src/agent_baseline/doctor.py",
+        "src/agent_baseline/__main__.py",
+        "tests/test_doctor.py",
+        "tests/test_baseline.py",
+        "tests/test_skills.py",
+        "tests/test_bootstrap.py",
+        "tests/test_sources.py",
+        "tests/test_portability.py"
+      ]
+    },
+    {
+      "path": "skills/baseline-project/references/project-record.md",
+      "sources": [
+        "src/agent_baseline/records.py",
+        "src/agent_baseline/sources.py",
+        "src/agent_baseline/execution.py",
+        "src/agent_baseline/doctor.py",
+        "src/agent_baseline/bootstrap.py",
+        "src/agent_baseline/skills.py",
+        "tests/test_doctor.py",
+        "tests/test_baseline.py",
+        "tests/test_skills.py",
+        "tests/test_bootstrap.py",
+        "tests/test_sources.py",
+        "tests/test_portability.py"
+      ]
+    },
+    {
+      "path": "skills/baseline-project/references/evaluate.md",
+      "sources": [
+        "docs/acceptance.md"
+      ]
+    },
+    {
+      "path": "examples/evaluation/README.md",
+      "sources": [
+        "examples/evaluation/parcel-library/docs/contract.md",
+        "examples/evaluation/parcel-library/parcel.py",
+        "examples/evaluation/parcel-library/tests/test_parcel.py",
+        "examples/evaluation/parcel-library/Makefile"
       ]
     }
   ],

@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-baseline"
-version = "0.1.1"
+version = "0.2.0"
 description = "Evidence-backed project guidance and verification for coding agents"
 readme = "README.md"
 authors = [{name = "Lemuel Boyce"}]
 requires-python = ">=3.11"
-dependencies = []
+dependencies = ["markdown-it-py>=3,<5", "PyYAML>=6,<7"]
 classifiers = [
   "Development Status :: 3 - Alpha",
   "Environment :: Console",
@@ -27,13 +27,12 @@ Repository = "https://github.com/rhymiz/agent-baseline"
 Issues = "https://github.com/rhymiz/agent-baseline/issues"
 
 [project.scripts]
-agent-baseline = "baseline:main"
+agent-baseline = "agent_baseline.cli:main"
 
 [tool.setuptools]
 include-package-data = false
-py-modules = ["baseline"]
-packages = ["agent_baseline_guidance"]
-package-dir = {"" = "skills/baseline-project/scripts", agent_baseline_guidance = "skills"}
+packages = ["agent_baseline", "agent_baseline_guidance"]
+package-dir = {"" = "src", agent_baseline_guidance = "skills"}
 
 [tool.setuptools.package-data]
 agent_baseline_guidance = ["baseline-project/SKILL.md", "baseline-project/references/*.md"]

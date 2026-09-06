@@ -1,112 +1,124 @@
 # Agent Baseline
 
-A local tool for maintaining evidence-backed project instructions. Version 0.1.1 combines a reusable authoring skill, a standard-library Python CLI, and a Codex plugin manifest. It needs no model API key or service. The skill runs inside the coding agent you already use.
+Portable tooling for evidence-backed coding-agent guidance. It helps an agent set up project instructions, detect stale supporting evidence, validate guidance structure, and run declared checks. It works with your existing coding agent and has no model API or service dependency.
 
-## Run with uvx or install once
+Guidance improves the agent's working environment. Host discovery is best effort; the target is better decisions when the agent reads the guidance. The tool does not control agent harnesses, make models equally capable, or prove architecture quality through file hashes.
 
-Requires Python 3.11+; Git for inventory; macOS or Linux for running checks. Run the CLI from PyPI without a permanent installation:
+## Start in any project
 
-```sh
-uvx agent-baseline --help
-uvx agent-baseline inspect .
-uvx agent-baseline check .
-uvx agent-baseline verify .
-```
-
-For a persistent installation:
+Requires uv and Python 3.11+. Project commands run on macOS/Linux; Git is optional for inventory. The package supplies its own Markdown and YAML parsers, so setup does not require Node, Bun, or another project's runtime.
 
 ```sh
-uv tool install agent-baseline
+uvx agent-baseline@0.2.0 init . --agent codex --agent claude
 ```
 
-Pin a version for reproducible automation, for example `uvx agent-baseline@0.1.1 check .`. These commands operate on the current project; `check` and `verify` require its configured baseline. Verification runs in the caller's environment, so declared commands must select the project's runtime explicitly where needed (for example, `uv run pytest`).
+Choose the hosts you use; omit both flags for the explicit CLI workflow. Initialization installs the skill and creates an empty evidence-record draft. It preserves existing project instructions and does not invent domain rules, sources, or test commands.
 
-## Make the guidance available to your agent
+Then start a new agent session and ask:
 
-`uvx` runs the executable in an isolated environment. It does not register skills with your agent. The PyPI package includes the complete guidance; choose one of these entrypoints.
+> Use baseline-project to set up this project's agent baseline. Preserve existing guidance, ground instructions in inspected contracts and code, configure the evidence record, and run the relevant verification.
 
-**Install once for all your local projects:**
+Invoke `$baseline-project` in Codex or `/baseline-project` in Claude Code, or select it in the host's skill picker. If the host does not discover local skills, ask it to run and follow:
 
 ```sh
-uvx agent-baseline@0.1.1 skill install --agent codex --scope user
-# Or for Claude Code:
-uvx agent-baseline@0.1.1 skill install --agent claude --scope user
+uvx agent-baseline@0.2.0 skill show
 ```
 
-**Share it with a project team:** run from the project root and commit the resulting skill directory.
+That command prints the complete skill and references. Running `uvx` alone does not load instructions into the agent.
+
+## Daily use
 
 ```sh
-uvx agent-baseline@0.1.1 skill install --agent codex --scope project
-# Use --agent claude for Claude Code, or --project /absolute/path for another project.
+uvx agent-baseline@0.2.0 doctor .
+uvx agent-baseline@0.2.0 check .
+uvx agent-baseline@0.2.0 verify .
 ```
 
-| Host | User directory | Project directory |
-| --- | --- | --- |
-| Codex | `~/.agents/skills/baseline-project/` | `.agents/skills/baseline-project/` |
-| Claude Code | `~/.claude/skills/baseline-project/` | `.claude/skills/baseline-project/` |
+`doctor` checks local Markdown links, referenced guidance, skill YAML, and selected host routes. Add `--agent codex --agent claude` for native project discovery requirements. It understands Markdown references and code examples instead of searching prose with a link regex.
 
-The installer copies `SKILL.md` and all references into persistent files, independent of uv's cache. Repeating the same installation is harmless. If any existing file differs, it refuses to overwrite the directory: review it and move it aside before installing an update. Updating the CLI alone does not update installed skill copies. The skill pins its CLI version to keep their contracts aligned.
+`check` detects changed evidence and names the guidance that depends on it. `verify` requires current evidence, runs built-in guidance validation and declared project commands, and checks that monitored inputs stayed unchanged. These commands do not replace task-specific engineering review, UI checks, or required application CI.
 
-Start a new agent session and explicitly invoke `$baseline-project` in Codex or `/baseline-project` in Claude Code (or select it in the host's skill picker). Confirm it appears in that host before relying on discovery. Installation makes the skill available; it does not guarantee automatic selection or compliance. User-scoped files are local to that machine; remote sessions need the committed project skill or their own installation.
+On drift, ask the agent to inspect the changed evidence and update or affirm the affected guidance. After that review:
 
-**Without native skill support or persistent installation:** tell the agent:
+```sh
+uvx agent-baseline@0.2.0 record .
+uvx agent-baseline@0.2.0 verify .
+```
 
-> Run `uvx agent-baseline@0.1.1 skill show`, read the complete output including its references, and use that guidance to set up this project's agent baseline.
+Never automatically re-record to clear a failure. An empty draft cannot pass as a reviewed baseline. If there are no project checks, version 2 records allow an empty check list and verification reports that limitation explicitly.
 
-`skill show` prints all guidance as Markdown with file headings. It does not modify files. This is also an explicit bootstrap for agents that can run commands but cannot discover installed skills.
+## Track the relevant evidence
 
-This package is also a configured example project: from its root, run `agent-baseline check .` and `agent-baseline verify .`. Its declared check executes the integration suite against the tool itself. Inspect its `AGENTS.md` and `.agent-baseline.json` to see a populated record.
+The same configuration works across languages and repository layouts:
 
-## Set up a project with an agent
+```json
+{
+  "schema_version": 2,
+  "artifacts": [
+    {
+      "path": "AGENTS.md",
+      "sources": [
+        {"path": "package.json", "json_pointer": "/scripts"},
+        {"path": "docs/architecture.md", "heading": "Ownership"},
+        "tests/domain.test.ts"
+      ]
+    }
+  ],
+  "checks": [
+    {"name": "tests", "argv": ["npm", "test"], "cwd": ".", "timeout_seconds": 600}
+  ]
+}
+```
 
-After installing the skill or supplying `skill show` output, ask:
+Replace these illustrative sources and commands with inspected project evidence. Track a whole file, one JSON value, or one named Markdown section. Selectors reduce irrelevant drift; missing or ambiguous selections fail. Version 1 records remain readable.
 
-> Use baseline-project to set up an agent baseline for the current project. Ground every rule in inspected code, contracts, or commands. Preserve existing instructions and unrelated edits. Create the project evidence record, run the relevant development checks, and report anything unverified.
+The [record specification](skills/baseline-project/references/project-record.md) describes validation, exit codes, compatibility, execution boundaries, and verification limits. `--help` and `--version` describe the installed CLI.
 
-The skill writes or improves a small root instruction file, relevant task routing and domain guidance, and `.agent-baseline.json`. It records the reviewed hashes in `.agent-baseline.lock.json`. These project files belong in version control. The helper does not generate guidance from filenames; the agent inspects the actual evidence first.
+## Keep guidance canonical
 
-The GitHub repository also includes a Codex plugin manifest for hosts using a configured plugin marketplace. CLI installation does not register that plugin.
+Initialization installs the baseline skill in `.agents/skills` and creates aliases for the selected hosts. Link an existing project skill without copying it:
 
-Codex skill authoring/discovery: [official docs](https://learn.chatgpt.com/docs/build-skills). Claude Code skill loading: [official docs](https://code.claude.com/docs/en/skills). Codex local plugin packaging: [official docs](https://developers.openai.com/plugins/build/plugins).
+```sh
+uvx agent-baseline@0.2.0 skill link tooling/skills/team-engineering --agent codex --agent claude
+```
 
-## Ongoing use
+The linker validates the resulting relative links and preserves existing destinations. A skill whose references depend on its original nesting may need its links corrected before it can be shared at another location.
 
-Ask the agent to audit guidance for a read-only report, or refresh guidance after the tool reports drift. Examples:
+For a user-level installation across your local projects:
 
-> Use baseline-project to audit this project's agent guidance. Report concrete contradictions, weak triggers, stale references, and verification gaps.
+```sh
+uvx agent-baseline@0.2.0 skill install --agent codex --scope user
+```
 
-> Use baseline-project to review the changed evidence, update only affected guidance, and verify the refreshed baseline.
+Use `--agent claude` for Claude Code. Project discovery uses `.agents/skills` for Codex and `.claude/skills` for Claude Code. User discovery uses those directories under the user's home. The repository also includes a Codex plugin manifest; CLI installation does not register that plugin with a marketplace.
 
-The skill offers a model-evaluation protocol when requested. Automated model trials, aggregate scoring, and model-specific routing are not implemented in this release.
+Installed files are persistent copies outside uv's cache. To upgrade a managed installation:
 
-## CLI behavior
+```sh
+uvx agent-baseline@0.2.0 skill install --agent codex --scope user --upgrade
+```
 
-| Command | Behavior |
-| --- | --- |
-| `skill show` | Prints the bundled skill and references as Markdown. |
-| `skill install --agent codex\|claude --scope user\|project [--project PATH]` | Copies complete guidance for native discovery, preserving differing existing skills. |
-| `inspect [project]` | Finds candidate instructions, manifests, CI files, and contracts. Reads filenames; does not execute project commands. |
-| `record [project]` | Snapshots the config, guidance, and supporting files after review. Does not certify quality. |
-| `check [project]` | Detects drift in the monitored files. No project commands execute. |
-| `verify [project]` | Runs every explicitly declared project check and reports pass/failure/timeout/blocked status. |
+Installation receipts identify the previous managed files. Upgrades preserve local edits and extra files by refusing conflicting replacements. They roll back a failed directory replacement. Older installations without receipts require a one-time comparison and manual move-aside before replacement; the tool does not assume those files are unmodified. Update the canonical directory when other hosts use aliases.
 
-Project commands and `skill install` emit JSON; successful `skill show` emits Markdown. Exit codes are 0 for operation success, 1 for drift or failed verification, and 2 for invalid input/configuration or prerequisite errors. Run `--help` for invocation syntax. See [the record specification](https://github.com/rhymiz/agent-baseline/blob/main/skills/baseline-project/references/project-record.md) for configuration and limitations.
+Host routing is based on [Codex's local skills documentation](https://learn.chatgpt.com/docs/build-skills), [Claude Code's skills documentation](https://code.claude.com/docs/en/skills), and the [Agent Skills specification](https://agentskills.io/specification). File placement and host loading are separate checks; native policies can disable discovery.
 
-Use `record` only after semantic review. Never run it automatically in a CI validation job before `check`. A hash change means guidance needs review, not necessarily rewriting. A matching hash means files are unchanged, not that their claims are correct.
+## Evaluate actual agent results
 
-In CI, use a pinned copy/version of the CLI, run `check`, then the project's required verification. Independently review changes to verification policy. The tool tracks selected evidence files, not the full patch, and does not establish architecture quality or model parity.
+Use the [evaluation protocol](skills/baseline-project/references/evaluate.md) to compare natural discovery and explicit skill invocation against observable acceptance criteria. Keep model/host versions, environment, inputs, and budgets recorded. Judge output artifacts independently; neither the agent's self-assessment nor a green structural check measures model parity.
 
-## Development verification
+The [reproducible authoring exercise](examples/evaluation/README.md) includes a small Python project, an intentional documentation contradiction, a task prompt, and artifact-level grading criteria. Copy it into an isolated workspace to try your own agent.
+
+The [0.2.0 evaluation report](docs/evaluation-0.2.0.md) records actual New Faces and authoring trials, including failed policy-authoring criteria and successful repeats. It is development evidence, not a model-parity benchmark.
+
+The package does not launch model APIs or claim performance scores. Evaluation runners are selected by the user. The New Faces integration is a testing ground; no New Faces paths, domain rules, or language commands belong in the package implementation.
+
+## Develop and publish
 
 ```sh
 python3 -m pip install -e .
 python3 -m unittest discover -s tests -v
 ```
 
-Tests use temporary project fixtures and real child commands. They cover evidence drift, missing and malformed inputs, path escape rejection, command failures/timeouts, working directories, and mutation during verification.
+The implementation is in `src/agent_baseline`; canonical skill content is in `skills/baseline-project`. Runtime dependencies are `markdown-it-py` and `PyYAML` for their supported syntax and safe parsers. `uv tool install agent-baseline` is available for a persistent CLI installation.
 
-## Publishing
-
-Publishing a GitHub release with a tag matching `v<project.version>` triggers `.github/workflows/publish.yml`. The workflow verifies the evidence and tests, builds and checks distributions, tests the wheel outside the checkout, and publishes through the `pypi` environment using PyPI Trusted Publishing. No PyPI API token is stored in the repository.
-
-The PyPI publisher is scoped to project `agent-baseline`, GitHub owner `rhymiz`, repository `agent-baseline`, workflow `publish.yml`, and environment `pypi`. Both the wheel and source distribution contain the CLI, skill, and references. Release smoke tests read and install the guidance from the built wheel outside the checkout.
+GitHub releases matching `v<project.version>` trigger the build and isolated PyPI Trusted Publishing workflow. Tests, distribution metadata, wheel execution outside the checkout, and bundled guidance are checked before publication. No PyPI API token is stored in the repository.
