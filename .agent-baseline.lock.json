@@ -3,7 +3,7 @@
   "evidence": [
     {
       "source": ".agent-baseline.json",
-      "sha256": "449a148032d539576d0d84203a0510606ab45c975c74dd6a65facff460887e29"
+      "sha256": "8e63bee2095466162738493a45054ad87864573d4cc9643cfe1665eca0bb8eeb"
     },
     {
       "source": ".github/workflows/check.yml",
@@ -19,11 +19,15 @@
     },
     {
       "source": "README.md",
-      "sha256": "e8f44b8f7d3e53291b82372e1c2f786eb67e7b90186cb377bdd5fbdd791bcd2d"
+      "sha256": "423fc6058dae93496e8a7ba808d0135b39af3df0029ce71f1957bc0d4b6e3785"
     },
     {
       "source": "docs/acceptance.md",
-      "sha256": "831232873d2054ff3be325d4ea4104b22d58fc772660b19ccd22517655fd7f1c"
+      "sha256": "ae87693506a0342e43e4cc72d28f92f63810f560d7d94207093a11a04673b258"
+    },
+    {
+      "source": "docs/evaluation-0.2.0.md",
+      "sha256": "3e8e67f8fdced69055d65dd3d5e300e97fc5f34747754062431909b2854797f7"
     },
     {
       "source": "examples/evaluation/README.md",

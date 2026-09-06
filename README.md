@@ -26,6 +26,8 @@ uvx agent-baseline@0.2.0 skill show
 
 That command prints the complete skill and references. Running `uvx` alone does not load instructions into the agent.
 
+Grok Build 1.0.13 also discovered the shared `.agents/skills` installation in the [native trials](docs/evaluation-0.2.0.md#grok-cli-follow-up). Use `init .` without host flags, then explicitly ask Grok to read `.agents/skills/baseline-project/SKILL.md` and complete the setup. Discovery in other versions remains best effort.
+
 ## Daily use
 
 ```sh

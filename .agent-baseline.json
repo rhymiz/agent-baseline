@@ -48,7 +48,8 @@
         "tests/test_bootstrap.py",
         "tests/test_sources.py",
         "tests/test_portability.py",
-        "examples/evaluation/README.md"
+        "examples/evaluation/README.md",
+        "docs/evaluation-0.2.0.md"
       ]
     },
     {
