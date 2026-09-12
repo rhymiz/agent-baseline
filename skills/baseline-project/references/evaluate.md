@@ -56,3 +56,16 @@ Use this JSON shape as a reporting template, replacing every illustrative value 
 Use `null` for unavailable measurements and unresolved rubric results. Distinguish `completed`, `failed`, `timed_out`, `budget_exhausted`, and `blocked` execution from criterion pass/fail. A completed run can fail every criterion. For a negative-trigger case, `expected_skill` can be null and the criterion is that the unrelated skill was not invoked. Make a first-attempt success claim only when every required criterion passes, no forbidden side effect occurred, and the final answer accurately describes validation.
 
 A useful starter suite has a guidance-refresh case, an actual engineering regression with an independent test, a task that needs a scoped domain reference, and an unrelated task that should not invoke baseline-project. Expand using failures from the user's codebase, not increasingly long universal prompts. Test a guidance change on held-out cases before adopting it across projects.
+
+## Evaluate instruction scope and completion
+
+For changes to skill routing, approval language, or completion criteria, include:
+
+- A bounded local fix whose request already authorizes implementation and verification. Grade the finished behavior and actual checks; distinguish premature handoff from a genuine blocker.
+- A one-word documentation correction that should avoid baseline setup, unrelated skill bodies, and broad tests. Reading applicable instructions and checking the diff remain appropriate.
+- A domain task with competing skill descriptions. Preserve the catalog actually exposed by the host, including any truncation; distinguish metadata exposure from body loading. Test both relevant and nearby negative requests.
+- A read-only audit with obsolete or overly broad instructions alongside an explicit owner policy that must survive. Grade findings against source authority rather than rewarding deletion or shorter text by itself.
+
+Before each trial, state what completion and justified verification mean for that case. In the existing criteria and intervention records, cite unnecessary approval stops, unfinished authorized work, unrelated reads, and redundant checks. Review a check's preceding changes, failures, and unresolved concerns before calling it redundant. Record tooling denials separately from model stopping behavior. Do not impose universal reading or tool-call quotas.
+
+Evaluate revised guidance within each supported model and host under paired conditions. Guidance helpful to one model may constrain another. Reduced loaded text is an observation, not proof of improved task performance. Keep behavioral evaluation separate from structural CLI tests and evidence freshness.

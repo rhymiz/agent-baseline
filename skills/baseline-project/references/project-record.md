@@ -46,7 +46,7 @@ The CLI continues to read version 1 records and locks. Version 1 uses whole-file
 
 ## Commands and interpretation
 
-Use `uvx agent-baseline@0.2.0`, or the matching installed command:
+Use `uvx agent-baseline@0.3.0`, or the matching installed command:
 
 - `init <project> [--agent codex --agent claude]` installs persistent guidance, prepares selected discovery aliases, and creates an empty record only if no record exists. It preserves existing instructions and records; it does not mark anything reviewed.
 - `inspect <project>` lists candidate paths. Git is optional; the filesystem fallback excludes common generated directories and does not interpret ignore files.
@@ -54,6 +54,7 @@ Use `uvx agent-baseline@0.2.0`, or the matching installed command:
 - `record <project>` validates and stores the reviewed evidence hashes. Run it only after semantic review. It does not certify successful verification.
 - `check <project>` compares the hashes and reports changed evidence, affected guidance, and deleted source paths. No project commands execute.
 - `verify <project>` rejects stale evidence, runs built-in structural guidance checks, executes every declared project check, and verifies that monitored inputs stayed unchanged.
+- `skill show` exports the root skill and all references as Markdown with file headings. `skill show --file SKILL.md` or `--file references/audit.md` exports just that bundled file. The selector accepts an exact bundle path; it never reads arbitrary filesystem paths. An unknown selector is invalid input.
 
 On drift, review the listed artifacts against the changed source selection. An unchanged hash means the selected input is unchanged; a changed hash means review is needed, not necessarily rewriting. Do not automatically run `record` before CI validation or after a failed check.
 

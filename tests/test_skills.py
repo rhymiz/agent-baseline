@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from importlib.metadata import version
 from pathlib import Path
 from unittest.mock import patch
 
@@ -47,10 +48,42 @@ class SkillTests(unittest.TestCase):
             "SKILL.md",
             "references/project-record.md",
             "references/evaluate.md",
+            "references/audit.md",
+            "references/maintain.md",
         ):
             self.assertIn("# File: " + name, text)
-        self.assertIn("uvx agent-baseline@0.2.0", text)
+        self.assertIn(f"uvx agent-baseline@{version('agent-baseline')}", text)
         self.assertEqual(list(self.root.iterdir()), [])
+
+    def test_show_selects_exact_bundled_files(self) -> None:
+        self.install()
+        destination = self.root / ".agents/skills/baseline-project"
+        complete = self.invoke("show")
+        for path in sorted(destination.rglob("*.md")):
+            name = path.relative_to(destination).as_posix()
+            with self.subTest(name=name):
+                selected = self.invoke("show", "--file", name)
+                self.assertEqual(selected, f"# File: {name}\n\n{path.read_text()}\n")
+                self.assertIn(selected.rstrip("\n"), complete)
+
+    def test_show_rejects_unbundled_paths_without_reading_local_files(self) -> None:
+        private = self.root / "private.md"
+        private.write_text("Local file must not appear in output")
+        for name in (
+            "missing.md",
+            "private.md",
+            str(private),
+            "../private.md",
+            "references/../SKILL.md",
+            "",
+        ):
+            with self.subTest(name=name):
+                output = self.invoke("show", "--file", name, expected=2)
+                report = json.loads(output)
+                self.assertEqual(report["status"], "invalid")
+                self.assertIn("Unknown bundled guidance file", report["error"])
+                self.assertNotIn(private.read_text(), output)
+        self.assertEqual(list(self.root.iterdir()), [private])
 
     def test_project_install_copies_complete_linked_guidance_for_both_hosts(
         self,

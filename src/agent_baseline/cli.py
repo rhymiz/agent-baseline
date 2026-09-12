@@ -75,8 +75,12 @@ def main() -> int:
         required=True,
     )
     link.add_argument("--project", default=".")
-    skill_commands.add_parser(
+    show = skill_commands.add_parser(
         "show", help="print the skill and all references as Markdown"
+    )
+    show.add_argument(
+        "--file",
+        help="print only this bundled path, such as SKILL.md or references/audit.md",
     )
     install = skill_commands.add_parser(
         "install",
@@ -117,10 +121,21 @@ def main() -> int:
             code = 0 if report["status"] == "passed" else 1
         elif args.command == "skill":
             if args.skill_command == "show":
+                bundle = skill_files()
+                selected = tuple(
+                    item
+                    for item in bundle
+                    if args.file is None or item.path == args.file
+                )
+                if not selected:
+                    raise InvalidBaseline(
+                        "Unknown bundled guidance file. Choose one of: "
+                        + ", ".join(item.path for item in bundle)
+                    )
                 print(
                     "\n\n".join(
                         f"# File: {item.path}\n\n{item.content.decode('utf-8')}"
-                        for item in skill_files()
+                        for item in selected
                     )
                 )
                 return 0

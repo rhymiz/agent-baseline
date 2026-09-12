@@ -3,7 +3,7 @@
   "evidence": [
     {
       "source": ".agent-baseline.json",
-      "sha256": "8e63bee2095466162738493a45054ad87864573d4cc9643cfe1665eca0bb8eeb"
+      "sha256": "0ecc302afa1b6d81e7fe330384d78a3ddba1fc992a4a7c53e442fb5cfd15b996"
     },
     {
       "source": ".github/workflows/check.yml",
@@ -15,15 +15,15 @@
     },
     {
       "source": "AGENTS.md",
-      "sha256": "8e858a4d61bb88616958f71fe6d3fda06e91821455b5477be43633d350c08506"
+      "sha256": "216cea8a866ddb9bc40e684c613588c24b25e438ccc40ed3dd4f0b24daa050d2"
     },
     {
       "source": "README.md",
-      "sha256": "423fc6058dae93496e8a7ba808d0135b39af3df0029ce71f1957bc0d4b6e3785"
+      "sha256": "b502d0f5ab9f91414e37649f61ecd02d0422b80241d308ed5be4474cdbbb3654"
     },
     {
       "source": "docs/acceptance.md",
-      "sha256": "ae87693506a0342e43e4cc72d28f92f63810f560d7d94207093a11a04673b258"
+      "sha256": "0e64537de44e2cce9b96e060ad62ed9dca0ff9a9644ed8615b867379356fba1b"
     },
     {
       "source": "docs/evaluation-0.2.0.md",
@@ -31,11 +31,27 @@
     },
     {
       "source": "examples/evaluation/README.md",
-      "sha256": "7559f0031b33e0691f3db8af1cc82d94faee5041a2d8284a8dfe0fa0d16bee75"
+      "sha256": "b5ea84d9e9b9605e115cc917e3deec01eb36f3c46033c456be79ecbca2222db8"
+    },
+    {
+      "source": "examples/evaluation/behavior/README.md",
+      "sha256": "a73cd2526ab6db1a1da023994601e804e7d1fd0b1ff2f81d91d3cbb1c4e6f569"
+    },
+    {
+      "source": "examples/evaluation/behavior/grade.py",
+      "sha256": "4e75cf934fc96bc458813aff8125f66b0634c33f038df907ff7c4366704acae0"
+    },
+    {
+      "source": "examples/evaluation/behavior/prepare.py",
+      "sha256": "ed69744a4a6a009a613a140c9fc41f91f1176276772faad79775bae54a066891"
     },
     {
       "source": "examples/evaluation/parcel-library/Makefile",
       "sha256": "d45cf9b2fa7841fe689461203e073cbd78d4b2dfddaae127e6f5d0290db40923"
+    },
+    {
+      "source": "examples/evaluation/parcel-library/README.md",
+      "sha256": "fb13d6fba2942c46852655292eabb350c38643a02fbbc730165d8b4cd151170c"
     },
     {
       "source": "examples/evaluation/parcel-library/docs/contract.md",
@@ -51,19 +67,27 @@
     },
     {
       "source": "pyproject.toml",
-      "sha256": "a0543f0bad36f5292df699ef4d6703c30a016b2a26f2d2bee4a64475f5ebc85f"
+      "sha256": "3b8aef6b9c8119147fd9f6aa4dcb754353161615c791c8d97a6498de47e9380b"
     },
     {
       "source": "skills/baseline-project/SKILL.md",
-      "sha256": "6e3ca77277b9c8769b1720f4836192c8e1d0af44f2ff9c9fd14f71fadfb84ec6"
+      "sha256": "e4921f3748b4e9d3f78c475fdc2c134686d92f417e7c405bec5c6f331661aa48"
+    },
+    {
+      "source": "skills/baseline-project/references/audit.md",
+      "sha256": "6c1598975bcdf3b87ff74212389e305597880c62c6e7c35adfbf44348b1de1e1"
     },
     {
       "source": "skills/baseline-project/references/evaluate.md",
-      "sha256": "a15b114721f9cbb8341f26e53f7ce5540052078e99c9504900ae3bd6aa7fe894"
+      "sha256": "c22e26b3a3cae1c9ed73732bd29f4d82eef07d4f55e04fd1c4caafd56777ee5f"
+    },
+    {
+      "source": "skills/baseline-project/references/maintain.md",
+      "sha256": "70d1ca85932949bac221f78c79b948a607d31a255041995271fea08f8ce354df"
     },
     {
       "source": "skills/baseline-project/references/project-record.md",
-      "sha256": "ce2fac197e4f88969f720bb4b05f62cb694dd78c4bd07307fb72d3a118013587"
+      "sha256": "178ad7da3b51cffc85abc1c515af25c09a1da8f5a65d54aec1d42448cc45516f"
     },
     {
       "source": "src/agent_baseline/__init__.py",
@@ -79,7 +103,7 @@
     },
     {
       "source": "src/agent_baseline/cli.py",
-      "sha256": "d93fd295e2370e57d305724c873882eccf9d8cfb1caaa9f3124286a23eb1ec14"
+      "sha256": "83b51be4980847d1f22a76aacd12b9cbf1a23e9d8e33c63662aa29e414dab1ae"
     },
     {
       "source": "src/agent_baseline/doctor.py",
@@ -127,7 +151,7 @@
     },
     {
       "source": "tests/test_skills.py",
-      "sha256": "cfeffed3e5aec0e8f2e4311b587597e856b5273b8b46433d8bddfc18e72f542c"
+      "sha256": "1d63ae82fc4c057c57bce682fb3bf01478f430e7abe20d43544ec81df76a9e56"
     },
     {
       "source": "tests/test_sources.py",

@@ -19,3 +19,5 @@ Grade the resulting files independently against these visible criteria:
 - The final report accurately describes the work and the limits of verification.
 
 Run the existing tests yourself; compare source bytes against the initial fixture; read the actual guidance and source mapping. Structural success alone cannot establish the third criterion. Use the [evaluation protocol](../../skills/baseline-project/references/evaluate.md) to retain all outcomes, including failures and inconclusive results. Do not treat one successful fixture as proof of model parity or effectiveness in every domain.
+
+The [behavioral fixtures](behavior/README.md) add reproducible local-fix, typo, competing-skill, and read-only audit cases. Their preparer accepts an explicit guidance condition; artifact checks and transcript grading remain separate.

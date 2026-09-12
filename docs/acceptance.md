@@ -26,6 +26,17 @@ Initial state: v0.1.1 supplies a CLI and bundled skill, but installation lacks u
 
 This checklist stays open until each outcome has current evidence. Passing unit tests alone does not close integration or behavioral outcomes.
 
-## Current evidence
+## Instruction maintenance in 0.3.0
+
+The accepted follow-up to the [OpenAI skills and prompts article](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) is a focused revision of guidance and evaluation, preserving the deterministic CLI and its execution boundaries:
+
+- Audit existing and new instructions for trigger precision, source authority, conditional reading, necessary ordering, approval scope, completion, and conflicting guidance. Recommend keeping, narrowing, moving, or removing rules with concrete evidence. Preserve explicit owner policy and distinguish predicted effects from observed failures.
+- Route the root skill to maintenance, audit, evaluation, and record references. Keep audit read-only unless fixes are also requested. Authorized maintenance should reach reviewed guidance, recorded evidence, required verification, and an accurate report without another routine approval stop.
+- Preserve the complete `skill show` export and add an optional exact bundled-file selector. Reject unbundled paths without reading arbitrary local files. Keep installed guidance portable and test the distribution outside the checkout.
+- Supply reproducible local-fix, typo, competing-skill, and audit fixtures. Separate artifact checks from transcript and semantic grading; retain failed, blocked, and incomplete outcomes. Compare guidance within each model and host before claiming a behavioral improvement.
+
+These are acceptance requirements for the new work. The native trials below evaluate 0.2.0; they do not establish the revised guidance's performance.
+
+## 0.2.0 release evidence
 
 The 49-test suite passes against the built wheel outside the source checkout, and strict typing, lint, and skill/plugin structural checks pass. The suite exercises the portable project shapes and failure boundaries above. Native development trials and their limitations are recorded in [evaluation-0.2.0.md](evaluation-0.2.0.md); the public authoring fixture makes the semantic rubric reproducible. New Faces now has schema 2 evidence, persistent managed guidance, canonical aliases, and generic checker commands; its local doctor and nine database-guard tests pass. The [four-platform CI run](https://github.com/rhymiz/agent-baseline/actions/runs/34003687617) and [Trusted Publishing run](https://github.com/rhymiz/agent-baseline/actions/runs/34003786301) passed for release commit `28086f473781f8f945ec56a6c3855149d88e6563`. Fresh-cache `uvx agent-baseline@0.2.0` initialization and doctor checks passed; the published package verified New Faces with 17 artifacts, two declared checks, nine guard tests, and unchanged monitored inputs. The installed managed skill matched the published package. The subsequent Grok Build 1.0.13 evaluation completed all three task families with independent artifact checks; its bounded README coverage and three runner-cancelled authoring attempts are retained in the evaluation report. Native discovery is best effort, not a controlled harness guarantee.

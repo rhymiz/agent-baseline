@@ -9,7 +9,7 @@ Guidance improves the agent's working environment. Host discovery is best effort
 Requires uv and Python 3.11+. Project commands run on macOS/Linux; Git is optional for inventory. The package supplies its own Markdown and YAML parsers, so setup does not require Node, Bun, or another project's runtime.
 
 ```sh
-uvx agent-baseline@0.2.0 init . --agent codex --agent claude
+uvx agent-baseline@0.3.0 init . --agent codex --agent claude
 ```
 
 Choose the hosts you use; omit both flags for the explicit CLI workflow. Initialization installs the skill and creates an empty evidence-record draft. It preserves existing project instructions and does not invent domain rules, sources, or test commands.
@@ -21,19 +21,28 @@ Then start a new agent session and ask:
 Invoke `$baseline-project` in Codex or `/baseline-project` in Claude Code, or select it in the host's skill picker. If the host does not discover local skills, ask it to run and follow:
 
 ```sh
-uvx agent-baseline@0.2.0 skill show
+uvx agent-baseline@0.3.0 skill show
 ```
 
 That command prints the complete skill and references. Running `uvx` alone does not load instructions into the agent.
+
+To load guidance selectively, start with the router and then request its relevant reference:
+
+```sh
+uvx agent-baseline@0.3.0 skill show --file SKILL.md
+uvx agent-baseline@0.3.0 skill show --file references/audit.md
+```
+
+`--file` accepts exact bundled paths. Installed skills can read the linked references directly. The audit workflow reviews trigger scope, source authority, prerequisites, approval stops, and completion criteria; it recommends evidence-backed changes without editing files or running project checks unless that work is also requested.
 
 Grok Build 1.0.13 also discovered the shared `.agents/skills` installation in the [native trials](docs/evaluation-0.2.0.md#grok-cli-follow-up). Use `init .` without host flags, then explicitly ask Grok to read `.agents/skills/baseline-project/SKILL.md` and complete the setup. Discovery in other versions remains best effort.
 
 ## Daily use
 
 ```sh
-uvx agent-baseline@0.2.0 doctor .
-uvx agent-baseline@0.2.0 check .
-uvx agent-baseline@0.2.0 verify .
+uvx agent-baseline@0.3.0 doctor .
+uvx agent-baseline@0.3.0 check .
+uvx agent-baseline@0.3.0 verify .
 ```
 
 `doctor` checks local Markdown links, referenced guidance, skill YAML, and selected host routes. Add `--agent codex --agent claude` for native project discovery requirements. It understands Markdown references and code examples instead of searching prose with a link regex.
@@ -43,8 +52,8 @@ uvx agent-baseline@0.2.0 verify .
 On drift, ask the agent to inspect the changed evidence and update or affirm the affected guidance. After that review:
 
 ```sh
-uvx agent-baseline@0.2.0 record .
-uvx agent-baseline@0.2.0 verify .
+uvx agent-baseline@0.3.0 record .
+uvx agent-baseline@0.3.0 verify .
 ```
 
 Never automatically re-record to clear a failure. An empty draft cannot pass as a reviewed baseline. If there are no project checks, version 2 records allow an empty check list and verification reports that limitation explicitly.
@@ -81,7 +90,7 @@ The [record specification](skills/baseline-project/references/project-record.md)
 Initialization installs the baseline skill in `.agents/skills` and creates aliases for the selected hosts. Link an existing project skill without copying it:
 
 ```sh
-uvx agent-baseline@0.2.0 skill link tooling/skills/team-engineering --agent codex --agent claude
+uvx agent-baseline@0.3.0 skill link tooling/skills/team-engineering --agent codex --agent claude
 ```
 
 The linker validates the resulting relative links and preserves existing destinations. A skill whose references depend on its original nesting may need its links corrected before it can be shared at another location.
@@ -89,7 +98,7 @@ The linker validates the resulting relative links and preserves existing destina
 For a user-level installation across your local projects:
 
 ```sh
-uvx agent-baseline@0.2.0 skill install --agent codex --scope user
+uvx agent-baseline@0.3.0 skill install --agent codex --scope user
 ```
 
 Use `--agent claude` for Claude Code. Project discovery uses `.agents/skills` for Codex and `.claude/skills` for Claude Code. User discovery uses those directories under the user's home. The repository also includes a Codex plugin manifest; CLI installation does not register that plugin with a marketplace.
@@ -97,7 +106,7 @@ Use `--agent claude` for Claude Code. Project discovery uses `.agents/skills` fo
 Installed files are persistent copies outside uv's cache. To upgrade a managed installation:
 
 ```sh
-uvx agent-baseline@0.2.0 skill install --agent codex --scope user --upgrade
+uvx agent-baseline@0.3.0 skill install --agent codex --scope user --upgrade
 ```
 
 Installation receipts identify the previous managed files. Upgrades preserve local edits and extra files by refusing conflicting replacements. They roll back a failed directory replacement. Older installations without receipts require a one-time comparison and manual move-aside before replacement; the tool does not assume those files are unmodified. Update the canonical directory when other hosts use aliases.
@@ -109,6 +118,8 @@ Host routing is based on [Codex's local skills documentation](https://learn.chat
 Use the [evaluation protocol](skills/baseline-project/references/evaluate.md) to compare natural discovery and explicit skill invocation against observable acceptance criteria. Keep model/host versions, environment, inputs, and budgets recorded. Judge output artifacts independently; neither the agent's self-assessment nor a green structural check measures model parity.
 
 The [reproducible authoring exercise](examples/evaluation/README.md) includes a small Python project, an intentional documentation contradiction, a task prompt, and artifact-level grading criteria. Copy it into an isolated workspace to try your own agent.
+
+The [behavioral fixtures](examples/evaluation/behavior/README.md) cover authorized completion, a small documentation correction, competing skill selection, and instruction auditing. They include deterministic preparation and artifact grading; transcript review is still required to assess pauses, unnecessary checks, skill loading, and final claims.
 
 The [0.2.0 evaluation report](docs/evaluation-0.2.0.md) records actual New Faces and authoring trials, including failed policy-authoring criteria and successful repeats. It is development evidence, not a model-parity benchmark.
 
