@@ -51,7 +51,8 @@
         "examples/evaluation/README.md",
         "skills/baseline-project/references/maintain.md",
         "docs/evaluation-0.2.0.md",
-        "examples/evaluation/behavior/README.md"
+        "examples/evaluation/behavior/README.md",
+        "skills/baseline-project/references/outcomes.md"
       ]
     },
     {
@@ -75,7 +76,8 @@
         "tests/test_bootstrap.py",
         "tests/test_sources.py",
         "tests/test_portability.py",
-        "docs/acceptance.md"
+        "docs/acceptance.md",
+        "skills/baseline-project/references/outcomes.md"
       ]
     },
     {
@@ -98,7 +100,8 @@
     {
       "path": "skills/baseline-project/references/evaluate.md",
       "sources": [
-        "docs/acceptance.md"
+        "docs/acceptance.md",
+        "skills/baseline-project/references/outcomes.md"
       ]
     },
     {
@@ -108,7 +111,8 @@
         "examples/evaluation/parcel-library/docs/contract.md",
         "examples/evaluation/parcel-library/parcel.py",
         "examples/evaluation/parcel-library/tests/test_parcel.py",
-        "examples/evaluation/parcel-library/Makefile"
+        "examples/evaluation/parcel-library/Makefile",
+        "skills/baseline-project/references/outcomes.md"
       ]
     },
     {
@@ -121,7 +125,8 @@
         "src/agent_baseline/doctor.py",
         "src/agent_baseline/skills.py",
         "tests/test_baseline.py",
-        "tests/test_skills.py"
+        "tests/test_skills.py",
+        "skills/baseline-project/references/outcomes.md"
       ]
     },
     {
@@ -129,7 +134,8 @@
       "sources": [
         "docs/acceptance.md",
         "examples/evaluation/behavior/prepare.py",
-        "src/agent_baseline/doctor.py"
+        "src/agent_baseline/doctor.py",
+        "skills/baseline-project/references/outcomes.md"
       ]
     },
     {
@@ -143,6 +149,21 @@
         "examples/evaluation/parcel-library/parcel.py",
         "examples/evaluation/parcel-library/README.md",
         "skills/baseline-project/references/evaluate.md"
+      ]
+    },
+    {
+      "path": "skills/baseline-project/references/outcomes.md",
+      "sources": [
+        {
+          "path": "docs/acceptance.md",
+          "heading": "Consumer outcome workflow"
+        },
+        "skills/baseline-project/references/maintain.md",
+        "skills/baseline-project/references/evaluate.md",
+        "src/agent_baseline/skills.py",
+        "src/agent_baseline/bootstrap.py",
+        "tests/test_skills.py",
+        "examples/evaluation/README.md"
       ]
     }
   ],

@@ -50,6 +50,7 @@ class SkillTests(unittest.TestCase):
             "references/evaluate.md",
             "references/audit.md",
             "references/maintain.md",
+            "references/outcomes.md",
         ):
             self.assertIn("# File: " + name, text)
         self.assertIn(f"uvx agent-baseline@{version('agent-baseline')}", text)

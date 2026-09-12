@@ -13,7 +13,7 @@ Read only the reference needed for the request:
 
 - **Set up or refresh guidance:** use [maintain.md](references/maintain.md) for authoring, evidence review, and verification. Setup creates or improves guidance; refresh reviews changed evidence and updates or affirms affected rules.
 - **Audit guidance:** use [audit.md](references/audit.md) to assess existing instructions and recommend changes. Audit alone is read-only and does not execute project checks. An explicit request to apply findings authorizes the corresponding maintenance work.
-- **Evaluate behavior:** use [evaluate.md](references/evaluate.md) to prepare paired trials, or run them when requested with an available runner and budget. The CLI does not launch models.
+- **Assess a guidance change:** use [outcomes.md](references/outcomes.md) for evidence from subsequent comparable work. Use [evaluate.md](references/evaluate.md) for controlled trials when requested with an available runner and budget. The CLI does not launch models.
 - **Edit an evidence record:** consult [project-record.md](references/project-record.md) for its schema and command contracts.
 
 Infer the operation from the request. Ordinary engineering work does not call for a repository-wide guidance rewrite. Preserve unrelated edits, canonical files, symlinks, and imports. Project setup does not implicitly authorize global installation, changes to other repositories, or publication.
@@ -28,6 +28,6 @@ Define completion for the requested operation. For authorized maintenance, finis
 
 ## CLI access
 
-Use `uvx agent-baseline@0.3.1 <command> <project>` or an installed matching `agent-baseline`. Requires uv and Python 3.11+; Git is optional for inventory and verification runs on macOS/Linux. The CLI has no model API dependency.
+Use `uvx agent-baseline@0.4.0 <command> <project>` or an installed matching `agent-baseline`. Requires uv and Python 3.11+; Git is optional for inventory and verification runs on macOS/Linux. The CLI has no model API dependency.
 
 Installed guidance and references are persistent files. Read the linked files directly. For hosts without file-based discovery, `skill show --file SKILL.md` retrieves this router and `skill show --file references/audit.md` retrieves a selected reference. `skill show` without a selector exports the complete bundle with file headings.

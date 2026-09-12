@@ -1,6 +1,10 @@
 # Evaluate guidance across models
 
-This procedure needs an agent runner and a declared execution budget. The included CLI does not launch models or synthesize benchmark scores.
+For a follow-up on work that has already occurred, use [outcomes.md](outcomes.md): assess the original criterion against the actual artifacts, record comparison limits and coverage, and retain unchanged, regressed, or inconclusive results. This needs no extra model run. A passing check or a completed change is not an improvement grade.
+
+## Controlled trials
+
+The controlled procedure below needs an agent runner and a declared execution budget. The included CLI does not launch models or synthesize benchmark scores.
 
 Choose historical tasks with observable acceptance criteria: an invented nullable state, unsafe boundary parsing, stale async responses, wrong test setup, or premature completion. Include nearby tasks that should not activate a specialized skill. Keep some cases held out.
 
@@ -16,6 +20,8 @@ Measure two skill conditions separately:
 Track first-attempt success, success within a declared repair budget, consistency across trials, invariant violations, false completion claims, cost, time, and human intervention. Evaluate the actual artifacts with independent tests and a calibrated architecture rubric. An agent's self-assessment is not a score.
 
 For setup and refresh trials, grade the maintained guidance against the [output contract](maintain.md#output-contract). Trace the important in-scope decisions from application and invariant to authority and actual check coverage or a concrete review criterion. Inspect assertions and canonical links; do not award semantic credit for headings, field presence, a source list, or a passing suite alone. Include cases with an uncovered invariant or a review-only decision, and require the output to disclose that boundary. Acknowledging a gap passes the reporting criterion, not the missing engineering check. Keep per-criterion evidence in the result record below.
+
+Also grade whether setup completed the consumer's learning route: a real destination, usable retrieval/update instructions, and a procedure that can be followed without writing missing policy. Exercise a project with no shared service, a project with an existing evidence store, and unavailable or partial evidence. Require a pending case only when the fixture contains a real finding. For subsequent-outcome cases, include an applied change with no later task, contrary evidence, and a bounded empty search. Grade the actual evidence linkage and honest assessment, not matching labels or template field presence.
 
 Classify failures as loading, missing knowledge, judgment, tooling, verification, or stopping. Fix the responsible layer. Do not keep adding universal instructions for unrelated incidents. Report per-model and per-task-family outcomes with uncertainty; a few successful trials do not prove equivalence.
 
