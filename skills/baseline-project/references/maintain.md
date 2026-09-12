@@ -12,11 +12,23 @@ Resolve material contradictions before writing dependent rules. Do not invent co
 
 ## Author and prune
 
-Keep the root short: essential rules and routing with task-specific detail in references. For ambiguous rules, state the triggering task, the decision, and evidence of compliance. Link to a maintained example instead of copying a code tour. Apply the [audit criteria](audit.md) to existing and proposed instructions within scope; use supported findings to keep, narrow, move, or remove rules. A setup or refresh request authorizes these relevant edits without a separate audit report unless one was requested.
+Keep the root short: essential rules and routing with task-specific detail in references. Link to maintained examples instead of copying a code tour. Apply the [audit criteria](audit.md) to existing and proposed instructions within scope; use supported findings to keep, narrow, move, or remove rules. A setup or refresh request authorizes these relevant edits without a separate audit report unless one was requested.
 
 For domain workflows, establish identity, lifecycle, ownership, valid states, boundary validation, failure semantics, and observable examples. Reuse concepts only when their invariants match. Keep internal types precise, imports at module scope, and test-only branches out of production. Do not use casts or unexplained nullable state to hide contract errors.
 
 Prefer repository-owned executable checks for mechanically decidable rules, and state their coverage limits. Architectural quality still needs a concrete rubric or owner review. Add a skill only for a recurring procedure needing more than a short routing rule. Make its description brief and distinguish applicable requests from nearby requests that should not trigger it. Keep discovery and execution evaluation separate; explicitly supply mandatory procedures at their task entrypoints.
+
+## Output contract
+
+For each important engineering rule introduced or reviewed in the requested scope, the maintained guidance must make these relationships clear:
+
+- **Application and decision:** when the rule applies and the observable invariant or behavior to preserve.
+- **Authority and example:** the inspected contract, source section, or explicit owner policy supporting the decision, with a maintained example when it clarifies application. Distinguish intended behavior from current implementation.
+- **Compliance and gaps:** the relevant executable check and what its assertions establish, or a concrete review criterion naming the behavior or artifact to inspect. State missing coverage and unresolved evidence explicitly. A proposed check is not existing verification.
+
+Use concise prose or links to canonical guidance; no fixed table, new skill, or separate report file is required. A source list and a passing suite alone do not establish these relationships. Inspect the relevant assertions before claiming coverage; an owner review requirement still needs an observable criterion. Keep temporary check results in the completion report rather than permanent rules.
+
+For refresh, update or affirm the affected relationships and their supporting evidence. Preserve valid mappings elsewhere without duplicating them or expanding the review to unrelated rules. An unresolved relationship must be reported as a gap, not described as an established contract.
 
 ## Review, record, and verify
 
@@ -26,6 +38,6 @@ Use `doctor` for links and metadata, adding host flags for requested native rout
 
 Inspect check behavior and prerequisites. Setup or refresh authorizes the relevant non-destructive development checks; retain any explicit execution limits from the user or environment. Exclude deployment, production mutation, publishing, and credential-bearing commands from the check list.
 
-After semantic review, run `record`, then `check`, then `verify`. This ordering preserves the reviewed snapshot and rejects drift before commands run. `verify` executes every declared check; use its results instead of redundantly rerunning the same suite without a reason. Recording does not certify correctness or successful verification. Never automatically re-record to silence drift. For refresh, update or affirm affected guidance with a concrete reason before recording.
+Review the resulting guidance against the output contract before recording. Trace the in-scope decisions to their authority and compliance criteria; resolve unsupported claims or disclose the remaining gaps. Then run `record`, `check`, and `verify`. This ordering preserves the reviewed snapshot and rejects drift before commands run. `verify` executes every declared check; use its results instead of redundantly rerunning the same suite without a reason. Recording does not certify correctness or successful verification. Never automatically re-record to silence drift.
 
-Report files changed, source-backed decisions, actual verification results, and limitations. Report an empty project-check list as guidance-only verification. Retain blocked, failed, and timed-out results, complete independent work, and never substitute a passing no-op. Distinguish mechanical validation, semantic review, and measured model performance.
+Report files changed, point to the maintained decisions and their compliance criteria, and state actual verification results and remaining gaps. Distinguish executed checks from review judgments and proposed checks. Report an empty project-check list as guidance-only verification. Retain blocked, failed, and timed-out results, complete independent work, and never substitute a passing no-op. Distinguish mechanical validation, semantic review, and measured model performance.

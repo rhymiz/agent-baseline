@@ -49,6 +49,7 @@
         "tests/test_sources.py",
         "tests/test_portability.py",
         "examples/evaluation/README.md",
+        "skills/baseline-project/references/maintain.md",
         "docs/evaluation-0.2.0.md",
         "examples/evaluation/behavior/README.md"
       ]
@@ -103,6 +104,7 @@
     {
       "path": "examples/evaluation/README.md",
       "sources": [
+        "docs/acceptance.md",
         "examples/evaluation/parcel-library/docs/contract.md",
         "examples/evaluation/parcel-library/parcel.py",
         "examples/evaluation/parcel-library/tests/test_parcel.py",

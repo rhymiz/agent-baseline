@@ -9,7 +9,7 @@ Guidance improves the agent's working environment. Host discovery is best effort
 Requires uv and Python 3.11+. Project commands run on macOS/Linux; Git is optional for inventory. The package supplies its own Markdown and YAML parsers, so setup does not require Node, Bun, or another project's runtime.
 
 ```sh
-uvx agent-baseline@0.3.0 init . --agent codex --agent claude
+uvx agent-baseline@0.3.1 init . --agent codex --agent claude
 ```
 
 Choose the hosts you use; omit both flags for the explicit CLI workflow. Initialization installs the skill and creates an empty evidence-record draft. It preserves existing project instructions and does not invent domain rules, sources, or test commands.
@@ -18,10 +18,12 @@ Then start a new agent session and ask:
 
 > Use baseline-project to set up this project's agent baseline. Preserve existing guidance, ground instructions in inspected contracts and code, configure the evidence record, and run the relevant verification.
 
+Completed setup connects important engineering rules to when they apply, the behavior to preserve, their supporting authority, and a relevant check or concrete review criterion. The [authoring output contract](skills/baseline-project/references/maintain.md#output-contract) requires missing coverage to be explicit. These relationships live in maintained guidance; their semantic review is separate from the CLI's structural and command checks.
+
 Invoke `$baseline-project` in Codex or `/baseline-project` in Claude Code, or select it in the host's skill picker. If the host does not discover local skills, ask it to run and follow:
 
 ```sh
-uvx agent-baseline@0.3.0 skill show
+uvx agent-baseline@0.3.1 skill show
 ```
 
 That command prints the complete skill and references. Running `uvx` alone does not load instructions into the agent.
@@ -29,8 +31,8 @@ That command prints the complete skill and references. Running `uvx` alone does 
 To load guidance selectively, start with the router and then request its relevant reference:
 
 ```sh
-uvx agent-baseline@0.3.0 skill show --file SKILL.md
-uvx agent-baseline@0.3.0 skill show --file references/audit.md
+uvx agent-baseline@0.3.1 skill show --file SKILL.md
+uvx agent-baseline@0.3.1 skill show --file references/audit.md
 ```
 
 `--file` accepts exact bundled paths. Installed skills can read the linked references directly. The audit workflow reviews trigger scope, source authority, prerequisites, approval stops, and completion criteria; it recommends evidence-backed changes without editing files or running project checks unless that work is also requested.
@@ -40,9 +42,9 @@ Grok Build 1.0.13 also discovered the shared `.agents/skills` installation in th
 ## Daily use
 
 ```sh
-uvx agent-baseline@0.3.0 doctor .
-uvx agent-baseline@0.3.0 check .
-uvx agent-baseline@0.3.0 verify .
+uvx agent-baseline@0.3.1 doctor .
+uvx agent-baseline@0.3.1 check .
+uvx agent-baseline@0.3.1 verify .
 ```
 
 `doctor` checks local Markdown links, referenced guidance, skill YAML, and selected host routes. Add `--agent codex --agent claude` for native project discovery requirements. It understands Markdown references and code examples instead of searching prose with a link regex.
@@ -52,8 +54,8 @@ uvx agent-baseline@0.3.0 verify .
 On drift, ask the agent to inspect the changed evidence and update or affirm the affected guidance. After that review:
 
 ```sh
-uvx agent-baseline@0.3.0 record .
-uvx agent-baseline@0.3.0 verify .
+uvx agent-baseline@0.3.1 record .
+uvx agent-baseline@0.3.1 verify .
 ```
 
 Never automatically re-record to clear a failure. An empty draft cannot pass as a reviewed baseline. If there are no project checks, version 2 records allow an empty check list and verification reports that limitation explicitly.
@@ -90,7 +92,7 @@ The [record specification](skills/baseline-project/references/project-record.md)
 Initialization installs the baseline skill in `.agents/skills` and creates aliases for the selected hosts. Link an existing project skill without copying it:
 
 ```sh
-uvx agent-baseline@0.3.0 skill link tooling/skills/team-engineering --agent codex --agent claude
+uvx agent-baseline@0.3.1 skill link tooling/skills/team-engineering --agent codex --agent claude
 ```
 
 The linker validates the resulting relative links and preserves existing destinations. A skill whose references depend on its original nesting may need its links corrected before it can be shared at another location.
@@ -98,7 +100,7 @@ The linker validates the resulting relative links and preserves existing destina
 For a user-level installation across your local projects:
 
 ```sh
-uvx agent-baseline@0.3.0 skill install --agent codex --scope user
+uvx agent-baseline@0.3.1 skill install --agent codex --scope user
 ```
 
 Use `--agent claude` for Claude Code. Project discovery uses `.agents/skills` for Codex and `.claude/skills` for Claude Code. User discovery uses those directories under the user's home. The repository also includes a Codex plugin manifest; CLI installation does not register that plugin with a marketplace.
@@ -106,7 +108,7 @@ Use `--agent claude` for Claude Code. Project discovery uses `.agents/skills` fo
 Installed files are persistent copies outside uv's cache. To upgrade a managed installation:
 
 ```sh
-uvx agent-baseline@0.3.0 skill install --agent codex --scope user --upgrade
+uvx agent-baseline@0.3.1 skill install --agent codex --scope user --upgrade
 ```
 
 Installation receipts identify the previous managed files. Upgrades preserve local edits and extra files by refusing conflicting replacements. They roll back a failed directory replacement. Older installations without receipts require a one-time comparison and manual move-aside before replacement; the tool does not assume those files are unmodified. Update the canonical directory when other hosts use aliases.

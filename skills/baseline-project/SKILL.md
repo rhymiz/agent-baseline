@@ -28,6 +28,6 @@ Define completion for the requested operation. For authorized maintenance, finis
 
 ## CLI access
 
-Use `uvx agent-baseline@0.3.0 <command> <project>` or an installed matching `agent-baseline`. Requires uv and Python 3.11+; Git is optional for inventory and verification runs on macOS/Linux. The CLI has no model API dependency.
+Use `uvx agent-baseline@0.3.1 <command> <project>` or an installed matching `agent-baseline`. Requires uv and Python 3.11+; Git is optional for inventory and verification runs on macOS/Linux. The CLI has no model API dependency.
 
 Installed guidance and references are persistent files. Read the linked files directly. For hosts without file-based discovery, `skill show --file SKILL.md` retrieves this router and `skill show --file references/audit.md` retrieves a selected reference. `skill show` without a selector exports the complete bundle with file headings.

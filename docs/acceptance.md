@@ -37,6 +37,14 @@ The accepted follow-up to the [OpenAI skills and prompts article](https://develo
 
 These are acceptance requirements for the new work. The native trials below evaluate 0.2.0; they do not establish the revised guidance's performance.
 
+## Engineering guidance output contract in 0.3.1
+
+Setup and refresh must leave each important engineering rule in scope traceable from its application and observable invariant to supporting authority and a relevant executable check or concrete review criterion. Inspect actual assertions before claiming test coverage. Identify unresolved authority, missing coverage, and proposed checks explicitly; do not describe them as established or verified.
+
+Keep these relationships in maintained guidance or its canonical references. No fixed layout, additional skill, or new evidence-record schema is required. Refresh reviews affected relationships without expanding to unrelated rules. Completion reports point to those decisions and distinguish executed verification, review judgments, proposals, and remaining gaps.
+
+Audit and evaluation must assess the relationships themselves. A valid record, a list of sources, or a passing suite is insufficient evidence of semantic coverage. Include uncovered invariants and decisions that require review in authoring exercises; judge accurate gap reporting separately from engineering compliance. The CLI continues to validate structure, freshness, and declared command outcomes without claiming semantic certification.
+
 ## 0.2.0 release evidence
 
 The 49-test suite passes against the built wheel outside the source checkout, and strict typing, lint, and skill/plugin structural checks pass. The suite exercises the portable project shapes and failure boundaries above. Native development trials and their limitations are recorded in [evaluation-0.2.0.md](evaluation-0.2.0.md); the public authoring fixture makes the semantic rubric reproducible. New Faces now has schema 2 evidence, persistent managed guidance, canonical aliases, and generic checker commands; its local doctor and nine database-guard tests pass. The [four-platform CI run](https://github.com/rhymiz/agent-baseline/actions/runs/34003687617) and [Trusted Publishing run](https://github.com/rhymiz/agent-baseline/actions/runs/34003786301) passed for release commit `28086f473781f8f945ec56a6c3855149d88e6563`. Fresh-cache `uvx agent-baseline@0.2.0` initialization and doctor checks passed; the published package verified New Faces with 17 artifacts, two declared checks, nine guard tests, and unchanged monitored inputs. The installed managed skill matched the published package. The subsequent Grok Build 1.0.13 evaluation completed all three task families with independent artifact checks; its bounded README coverage and three runner-cancelled authoring attempts are retained in the evaluation report. Native discovery is best effort, not a controlled harness guarantee.

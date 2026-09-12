@@ -15,6 +15,8 @@ Measure two skill conditions separately:
 
 Track first-attempt success, success within a declared repair budget, consistency across trials, invariant violations, false completion claims, cost, time, and human intervention. Evaluate the actual artifacts with independent tests and a calibrated architecture rubric. An agent's self-assessment is not a score.
 
+For setup and refresh trials, grade the maintained guidance against the [output contract](maintain.md#output-contract). Trace the important in-scope decisions from application and invariant to authority and actual check coverage or a concrete review criterion. Inspect assertions and canonical links; do not award semantic credit for headings, field presence, a source list, or a passing suite alone. Include cases with an uncovered invariant or a review-only decision, and require the output to disclose that boundary. Acknowledging a gap passes the reporting criterion, not the missing engineering check. Keep per-criterion evidence in the result record below.
+
 Classify failures as loading, missing knowledge, judgment, tooling, verification, or stopping. Fix the responsible layer. Do not keep adding universal instructions for unrelated incidents. Report per-model and per-task-family outcomes with uncertainty; a few successful trials do not prove equivalence.
 
 ## Run a reproducible trial

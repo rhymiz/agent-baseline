@@ -3,7 +3,7 @@
   "evidence": [
     {
       "source": ".agent-baseline.json",
-      "sha256": "0ecc302afa1b6d81e7fe330384d78a3ddba1fc992a4a7c53e442fb5cfd15b996"
+      "sha256": "49211f010d3e0a97053db459522619789222134e9c1a3f72b068aff2c3bc564a"
     },
     {
       "source": ".github/workflows/check.yml",
@@ -19,11 +19,11 @@
     },
     {
       "source": "README.md",
-      "sha256": "b502d0f5ab9f91414e37649f61ecd02d0422b80241d308ed5be4474cdbbb3654"
+      "sha256": "9796e598d93e73a5db3ee105c7f78e8c540a1b60945e73c83c595cd12da9cf85"
     },
     {
       "source": "docs/acceptance.md",
-      "sha256": "0e64537de44e2cce9b96e060ad62ed9dca0ff9a9644ed8615b867379356fba1b"
+      "sha256": "60e5fd50ac4c6137773e001bfb0b4cb1465c9019e9b456b153b3191db165c36a"
     },
     {
       "source": "docs/evaluation-0.2.0.md",
@@ -31,7 +31,7 @@
     },
     {
       "source": "examples/evaluation/README.md",
-      "sha256": "b5ea84d9e9b9605e115cc917e3deec01eb36f3c46033c456be79ecbca2222db8"
+      "sha256": "3bc1587e248aede6d3be53bafc5624d43558276e9edf449de94f8ee4e1d293cf"
     },
     {
       "source": "examples/evaluation/behavior/README.md",
@@ -67,27 +67,27 @@
     },
     {
       "source": "pyproject.toml",
-      "sha256": "3b8aef6b9c8119147fd9f6aa4dcb754353161615c791c8d97a6498de47e9380b"
+      "sha256": "f81a0715bf80b74bea39056d26eaf80364f02046d3c54cda56cf6e0b3b49e523"
     },
     {
       "source": "skills/baseline-project/SKILL.md",
-      "sha256": "e4921f3748b4e9d3f78c475fdc2c134686d92f417e7c405bec5c6f331661aa48"
+      "sha256": "58c4d383ca9c65e25f1c70feb36aa13131cfa5dffc1fb6f86a03de46adff7872"
     },
     {
       "source": "skills/baseline-project/references/audit.md",
-      "sha256": "6c1598975bcdf3b87ff74212389e305597880c62c6e7c35adfbf44348b1de1e1"
+      "sha256": "3002f4e4ff7756b34268e3e04f522cb061fd8363e541c13e199ef2db384b8b76"
     },
     {
       "source": "skills/baseline-project/references/evaluate.md",
-      "sha256": "c22e26b3a3cae1c9ed73732bd29f4d82eef07d4f55e04fd1c4caafd56777ee5f"
+      "sha256": "58743c9021645d5054f246e3f3f9d28729901c1898f68b0b6e82e980513c92d8"
     },
     {
       "source": "skills/baseline-project/references/maintain.md",
-      "sha256": "70d1ca85932949bac221f78c79b948a607d31a255041995271fea08f8ce354df"
+      "sha256": "1b3b3682f6e051038a259fe1647f2408beb90b672f4c88ba0ee6e74ea6625743"
     },
     {
       "source": "skills/baseline-project/references/project-record.md",
-      "sha256": "178ad7da3b51cffc85abc1c515af25c09a1da8f5a65d54aec1d42448cc45516f"
+      "sha256": "2fa830a5f21a0f319f33b25ac8dc21fa44979e9956f5d00a22b9dae194e1e888"
     },
     {
       "source": "src/agent_baseline/__init__.py",
