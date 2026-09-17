@@ -46,7 +46,7 @@ The CLI continues to read version 1 records and locks. Version 1 uses whole-file
 
 ## Commands and interpretation
 
-Use `uvx agent-baseline@0.4.1`, or the matching installed command:
+Use `uvx agent-baseline@0.4.2`, or the matching installed command:
 
 - `init <project> [--agent codex --agent claude]` installs persistent guidance, prepares selected discovery aliases, and creates an empty record only if no record exists. It preserves existing instructions and records; it does not mark anything reviewed.
 - `inspect <project>` lists candidate paths. Git is optional; the filesystem fallback excludes common generated directories and does not interpret ignore files.

@@ -101,7 +101,8 @@
       "path": "skills/baseline-project/references/evaluate.md",
       "sources": [
         "docs/acceptance.md",
-        "skills/baseline-project/references/outcomes.md"
+        "skills/baseline-project/references/outcomes.md",
+        "skills/baseline-project/references/research.md"
       ]
     },
     {
@@ -126,7 +127,8 @@
         "src/agent_baseline/skills.py",
         "tests/test_baseline.py",
         "tests/test_skills.py",
-        "skills/baseline-project/references/outcomes.md"
+        "skills/baseline-project/references/outcomes.md",
+        "skills/baseline-project/references/research.md"
       ]
     },
     {
@@ -135,7 +137,8 @@
         "docs/acceptance.md",
         "examples/evaluation/behavior/prepare.py",
         "src/agent_baseline/doctor.py",
-        "skills/baseline-project/references/outcomes.md"
+        "skills/baseline-project/references/outcomes.md",
+        "skills/baseline-project/references/research.md"
       ]
     },
     {
@@ -164,6 +167,15 @@
         "src/agent_baseline/bootstrap.py",
         "tests/test_skills.py",
         "examples/evaluation/README.md"
+      ]
+    },
+    {
+      "path": "skills/baseline-project/references/research.md",
+      "sources": [
+        {
+          "path": "docs/acceptance.md",
+          "heading": "Research-informed maintenance in 0.4.2"
+        }
       ]
     }
   ],

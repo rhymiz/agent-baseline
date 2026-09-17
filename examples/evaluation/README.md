@@ -37,6 +37,78 @@ Keep this evaluator reference outside the implementing agent's workspace; provid
 
 The [behavioral fixtures](behavior/README.md) add reproducible local-fix, typo, competing-skill, and read-only audit cases. Their preparer accepts an explicit guidance condition; artifact checks and transcript grading remain separate.
 
+## Test authored guidance in a fresh consumer
+
+This is a public development exercise for the two-stage protocol, not a held-out
+performance benchmark. First complete and independently grade the authoring trial
+above. Freeze its generated guidance, supporting references, installed skill copy,
+and hashes outside the consumer's writable workspace. Keep its transcript private
+to the evaluator. Record which authoring trial produced each consumer baseline.
+
+Create a fresh copy of the authored project for each consumer condition. Preserve
+the generated guidance rather than using the behavioral preparer, which replaces
+AGENTS.md. In each copy, introduce the same controlled defect in `parcel.py`:
+replace `return Parcel(parcel.identifier, State.COMPLETED)` with
+`return Parcel("lost", State.COMPLETED)`. Require exactly one matching occurrence
+before replacement; stop if the fixture has changed. Retain the original tests in
+an evaluator-owned location outside the consumer's access. Run those tests against
+the defective copy first to confirm the intended failure.
+
+Give each fresh consumer session only its workspace and this task:
+
+> Fix `complete` so a queued Parcel returns a new completed Parcel with the same
+> identifier, leaving every field of the original unchanged. Completed Parcels
+> must still raise ValueError. Preserve the public API, contract, tests, and all
+> guidance; only `parcel.py` may change. Run the local tests and report their actual
+> results. Do not install packages, commit, publish, or re-record baseline evidence.
+> The fixture deliberately changed a monitored source after authoring; if baseline
+> freshness is checked, report that drift rather than hiding it.
+
+The evaluator checks that only `parcel.py` changed, runs the trusted original tests
+against it, and separately runs this preservation probe with the consumer root on
+the import path. Keep the probe outside the consumer's accessible workspace:
+
+```python
+from parcel import Parcel, State, complete
+
+for identifier in ("sample", "", "parcel-2"):
+    original = Parcel(identifier, State.QUEUED)
+    before = (original.identifier, original.state)
+    result = complete(original)
+    assert result == Parcel(identifier, State.COMPLETED)
+    assert result is not original
+    assert (original.identifier, original.state) == before
+
+try:
+    complete(Parcel("done", State.COMPLETED))
+except ValueError:
+    pass
+else:
+    raise AssertionError("Completed parcel was accepted")
+```
+
+Calibrate the probe against the unchanged correct fixture and both a lost-identifier
+defect and an implementation that mutates the original identifier through
+`object.__setattr__`. The latter can pass the original tests; the probe must reject
+it. This verifies the grader's specific assertions, not model performance or every
+possible implementation defect. Review the final report independently for accurate
+test claims and any unresolved drift.
+
+For authoring-method comparisons, produce separate baselines from the same initial
+fixture using current and proposed authoring guidance. For the minimal consumer
+condition, retain the original owner instruction, explicit task requirements, and
+essential test command; keep the raw contract and source accessible. Record exactly
+which optional generated guidance was removed, including host imports or aliases
+that would otherwise leak it. Match consumer code, prompt, environment, and budget
+across conditions. Do not call a trial natural discovery if the task explicitly
+names a skill. Retain both authoring and consumer results even when one fails.
+
+Before broader claims, add independent repositories and held-out consumer tasks,
+including a nearby documentation correction that should not invoke maintenance.
+Repeat both stages, counterbalance conditions, and keep results from a shared
+authored baseline grouped. A passing public example establishes bounded behavior,
+not a causal improvement in the authoring method.
+
 ## Outcome follow-up variants
 
 Use isolated copies and give the implementing agent each variant's visible task and raw evidence. These extend the setup exercise; they do not require a model runner for fixture preparation.

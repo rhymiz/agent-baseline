@@ -97,5 +97,11 @@ case. State sources and runs actually checked, requested versus inspected scope,
 and missing, unavailable, or truncated evidence. A bounded search with no matches
 does not prove every case resolved or an entire time window reviewed.
 
+When assessing an efficiency claim, distinguish model runtime, human review and
+repair, and guidance maintenance effort. Preserve measured effort and its source;
+leave unavailable quantities unknown. Fewer tokens, faster model execution, or a
+successful check alone does not establish lower total engineering effort. Use the
+existing case history without creating a separate tracking system.
+
 These are evidence-backed assessments, not automatic grades. Use
 [controlled evaluation](evaluate.md) for broader causal or cross-model claims.

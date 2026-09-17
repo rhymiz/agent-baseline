@@ -12,18 +12,32 @@ For each case, record its base commit, task prompt, fixtures, setup, acceptance 
 
 Compare the current configuration with proposed guidance using the same model/host versions, tools, environment, budget, and initial state. Repeat in fresh workspaces and conversations. Record reasoning settings and global instructions rather than assuming equally named settings behave identically.
 
+When testing the value of added guidance, include a minimal condition retaining required owner policy, task requirements, and essential commands. For a disputed instruction, compare a condition with that instruction removed while holding the rest fixed. Never remove mandatory policy to improve a benchmark score. A current-versus-proposed comparison alone cannot establish that either improves on the minimal condition.
+
+Before trials, declare the primary outcome, repair budget, stopping rule, and acceptable regressions. Randomize or counterbalance condition order within each model/host and task. Report paired outcomes, denominators, and uncertainty using a method appropriate to the sample; do not treat repeated runs of one task as independent coverage of many tasks. Keep all assigned trials, recording infrastructure failures separately. Blind semantic graders to condition labels where feasible, calibrate them against concrete artifacts, and retain disagreements. Exploratory trials can find defects but do not establish a general improvement or equivalence.
+
 Measure two skill conditions separately:
 
 1. Natural request: did the right skill load, and did unrelated requests avoid it?
 2. Explicitly supplied skill: did the workflow produce acceptable changes?
 
-Track first-attempt success, success within a declared repair budget, consistency across trials, invariant violations, false completion claims, cost, time, and human intervention. Evaluate the actual artifacts with independent tests and a calibrated architecture rubric. An agent's self-assessment is not a score.
+Track first-attempt success, success within a declared repair budget, consistency across trials, invariant violations, false completion claims, cost, time, and human intervention. Separate model runtime, human review and repair, and baseline maintenance effort; use null for unmeasured quantities. Evaluate the actual artifacts with independent tests and a calibrated architecture rubric. An agent's self-assessment is not a score. Grade required behavior and policy separately from skill discovery; an exact tool sequence is appropriate only when ordering is itself a requirement.
+
+Record the host's effective instruction context when available, including scoped overrides, imports, shortened descriptions, and omitted skills. Distinguish files installed, metadata exposed, bodies loaded, and behavior observed. Use host-supported context inspection or trace events and name visibility limits; installed files and an agent's claim to have read them are insufficient loading evidence. Consult the installed host's documentation rather than assuming another host's loading rules.
 
 For setup and refresh trials, grade the maintained guidance against the [output contract](maintain.md#output-contract). Trace the important in-scope decisions from application and invariant to authority and actual check coverage or a concrete review criterion. Inspect assertions and canonical links; do not award semantic credit for headings, field presence, a source list, or a passing suite alone. Include cases with an uncovered invariant or a review-only decision, and require the output to disclose that boundary. Acknowledging a gap passes the reporting criterion, not the missing engineering check. Keep per-criterion evidence in the result record below.
 
 Also grade whether setup completed the consumer's learning route: a real destination, usable retrieval/update instructions, and a procedure that can be followed without writing missing policy. Exercise a project with no shared service, a project with an existing evidence store, and unavailable or partial evidence. Require a pending case only when the fixture contains a real finding. For subsequent-outcome cases, include an applied change with no later task, contrary evidence, and a bounded empty search. Grade the actual evidence linkage and honest assessment, not matching labels or template field presence.
 
 Classify failures as loading, missing knowledge, judgment, tooling, verification, or stopping. Fix the responsible layer. Do not keep adding universal instructions for unrelated incidents. Report per-model and per-task-family outcomes with uncertainty; a few successful trials do not prove equivalence.
+
+## Evaluate generated guidance in use
+
+For changes to baseline authoring, grade both the authored guidance and its downstream use. Freeze the generated artifacts and their hashes, then give a fresh consumer agent a held-out engineering task with those artifacts. Exclude the authoring conversation, solution patches, graders, and other conditions from its accessible environment. Keep consumer source, prompt, environment, and budget identical across conditions; vary only the reviewed guidance. Include a minimal owner-policy condition when measuring its added value.
+
+Choose downstream tasks with observable acceptance criteria that exercise the authored decision, plus nearby tasks where the procedure should not activate. Compare correctness, policy compliance, verification claims, effort, and loading separately. A source-backed authoring result does not by itself establish that another agent benefits from it. If authoring is nondeterministic, repeat authoring as well as consumer trials and identify which consumers share the same generated baseline.
+
+Link the authoring result to each consumer result using an external experiment manifest containing task IDs, artifact hashes, condition, trial, and grading references. This is evaluation evidence, not a new CLI record schema. Public fixtures are development cases; use undisclosed tasks and repositories before generalizing. If no downstream trial ran, report authoring validation only. The [research rationale](research.md) explains why these distinctions matter; reading every source is not a trial prerequisite.
 
 ## Run a reproducible trial
 

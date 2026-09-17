@@ -53,6 +53,40 @@ The bundled outcome reference connects findings, changes, revisions, desired beh
 
 Audit reports the requested versus inspected scope and unavailable or bounded evidence. Evaluation grades consumer usability and evidence relationships, including a project without integrations, preserved existing storage, and missing outcome evidence. Structural/export/install tests prove packaging and routing; behavioral fixtures require separately reported semantic or model evaluation. The CLI evidence schema and runtime remain unchanged.
 
+## Research-informed maintenance in 0.4.2
+
+The authorized research follow-up strengthens the authoring and evaluation method
+without changing the CLI execution or record contracts:
+
+- Retain an instruction for an identifiable project decision, non-obvious constraint,
+  or recurring failure. Preserve owner policy and prefer canonical references to
+  duplicated explanations; accuracy or shorter text alone does not establish value.
+- Keep reusable domain and validation principles distinct from owner-specific import,
+  type, and public API restrictions. This repository's explicit no-re-export policy
+  remains in force; consumer guidance must honor the consumer's own authority.
+- Distinguish installation, metadata exposure, body loading, and observed behavior.
+  A requested native loading check needs effective-context or trace evidence, not
+  only valid files. Ordinary maintenance does not require a model run.
+- For controlled trials, compare minimal required guidance, current guidance, and
+  proposed changes when measuring added value. Use instruction-removal comparisons
+  where relevant without removing mandatory policy. Predeclare outcomes, budgets,
+  stopping criteria, and regression limits; retain paired results and uncertainty.
+- Evaluate baseline authoring and downstream consumer use separately. Freeze generated
+  artifacts before fresh consumer tasks, preserve owner policy in every condition,
+  and keep solutions and graders outside the agent's accessible workspace.
+- Record model effort, human review and repair, and maintenance effort separately.
+  Preserve unknown measurements and contrary outcomes in the existing workflow.
+- Bundle optional research provenance with source versions and applicability limits.
+  The local evidence record monitors this synthesis and its accepted scope; linked
+  remote literature still requires source review and is not hash-verified by the CLI.
+
+Review the maintained rules against the [research rationale](../skills/baseline-project/references/research.md)
+and these criteria. The [consumer exercise](../examples/evaluation/README.md#test-authored-guidance-in-a-fresh-consumer)
+provides a development task and independent preservation probe. Package tests check
+export, installation, links, and existing execution behavior. These are release
+acceptance checks, not a controlled model-performance study; no performance gain or
+cross-model equivalence is claimed for 0.4.2.
+
 ## 0.2.0 release evidence
 
 The 49-test suite passes against the built wheel outside the source checkout, and strict typing, lint, and skill/plugin structural checks pass. The suite exercises the portable project shapes and failure boundaries above. Native development trials and their limitations are recorded in [evaluation-0.2.0.md](evaluation-0.2.0.md); the public authoring fixture makes the semantic rubric reproducible. New Faces now has schema 2 evidence, persistent managed guidance, canonical aliases, and generic checker commands; its local doctor and nine database-guard tests pass. The [four-platform CI run](https://github.com/rhymiz/agent-baseline/actions/runs/34003687617) and [Trusted Publishing run](https://github.com/rhymiz/agent-baseline/actions/runs/34003786301) passed for release commit `28086f473781f8f945ec56a6c3855149d88e6563`. Fresh-cache `uvx agent-baseline@0.2.0` initialization and doctor checks passed; the published package verified New Faces with 17 artifacts, two declared checks, nine guard tests, and unchanged monitored inputs. The installed managed skill matched the published package. The subsequent Grok Build 1.0.13 evaluation completed all three task families with independent artifact checks; its bounded README coverage and three runner-cancelled authoring attempts are retained in the evaluation report. Native discovery is best effort, not a controlled harness guarantee.
