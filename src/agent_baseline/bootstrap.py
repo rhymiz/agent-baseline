@@ -7,8 +7,9 @@ import os
 from pathlib import Path
 
 from .doctor import scan_paths
+from .errors import InvalidBaseline
 from .metadata import skill_metadata
-from .records import CONFIG, InvalidBaseline, load_baseline, within
+from .records import CONFIG, load_baseline, within
 from .skills import Agent, install_at
 
 

@@ -7,7 +7,7 @@ import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
-from .errors import InvalidBaseline as InvalidBaseline
+from .errors import InvalidBaseline
 from .sources import Source, fingerprint, parsed_json, source
 
 CONFIG = ".agent-baseline.json"

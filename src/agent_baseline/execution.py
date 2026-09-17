@@ -11,12 +11,12 @@ import tempfile
 from pathlib import Path
 
 from .doctor import scan_paths
+from .errors import InvalidBaseline
 from .records import (
     EXCLUDED,
     INSTRUCTIONS,
     MANIFESTS,
     Check,
-    InvalidBaseline,
     drift,
     load_baseline,
     save_snapshot,

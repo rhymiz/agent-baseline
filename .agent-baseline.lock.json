@@ -15,11 +15,11 @@
     },
     {
       "source": "AGENTS.md",
-      "sha256": "216cea8a866ddb9bc40e684c613588c24b25e438ccc40ed3dd4f0b24daa050d2"
+      "sha256": "68d1b71010318a60331698f54ee74b1b69a1c77b51d40af38d25288304c45cb9"
     },
     {
       "source": "README.md",
-      "sha256": "94c5ec2850438f9d72506b21ccc79e2df79a8560cd8f58f718cf3efbf01f7ce1"
+      "sha256": "e413c606102ba659858bd4e01fa4b960038ab2bd2b4e39c281f2b58b18e92bb9"
     },
     {
       "source": "docs/acceptance.md",
@@ -67,11 +67,11 @@
     },
     {
       "source": "pyproject.toml",
-      "sha256": "4d23140b0b4dc11e6f97063e653c33ca6af22c00259fef1b42aa5775a4f8271d"
+      "sha256": "736e8efd1bbfdb481a7c317944b86b0ba9b8166da46fb17e816fc8ad199b9c21"
     },
     {
       "source": "skills/baseline-project/SKILL.md",
-      "sha256": "874c8f0033cbc6193c9e57a8ce6af86bc855e3a2ee16cf9126a0fc86cc5c14fd"
+      "sha256": "5593267205e09bcdf8fcbe918e55b0aefd75b5d4cbbadbc4b71057bb63a4dfb8"
     },
     {
       "source": "skills/baseline-project/references/audit.md",
@@ -83,7 +83,7 @@
     },
     {
       "source": "skills/baseline-project/references/maintain.md",
-      "sha256": "4f0f6b1de7d88d819bf87cb7b099e372ef719abf9953ed6f4a8185fee7707283"
+      "sha256": "6147a64129dbc91d367b0cc342082056407225edfadd9cc390dfbd357f0797e2"
     },
     {
       "source": "skills/baseline-project/references/outcomes.md",
@@ -91,7 +91,7 @@
     },
     {
       "source": "skills/baseline-project/references/project-record.md",
-      "sha256": "f29143f60f3102814830946c362e5215486a007cc9e578570595caad8241a437"
+      "sha256": "de705d62d71ccab7456860c2854e910fb07e8287c9ca9a8491a0841e0bb04f46"
     },
     {
       "source": "src/agent_baseline/__init__.py",
@@ -103,15 +103,15 @@
     },
     {
       "source": "src/agent_baseline/bootstrap.py",
-      "sha256": "a7b806e86cfb8a93c154ebbaeba5600bd109d29b06780cc4ffdb705f70eaab5d"
+      "sha256": "60ad270243d48fbda4e966351fcc0426cbb7c09a405130eb7eeac76f49325faa"
     },
     {
       "source": "src/agent_baseline/cli.py",
-      "sha256": "83b51be4980847d1f22a76aacd12b9cbf1a23e9d8e33c63662aa29e414dab1ae"
+      "sha256": "119a3244364fa2931f3a5515ff1f5dfe3dca77ff4a3a0408c2facc7308f6b316"
     },
     {
       "source": "src/agent_baseline/doctor.py",
-      "sha256": "efbcaa9bf0689224f25cc0698e8628c73d805ace27180557c20b4c92990362a2"
+      "sha256": "56ebd8458969d65442c24801d4dcbb0529a8cb49556f6c5617d6cb9f282d7c3d"
     },
     {
       "source": "src/agent_baseline/errors.py",
@@ -119,7 +119,7 @@
     },
     {
       "source": "src/agent_baseline/execution.py",
-      "sha256": "d75a40ae780b80b7a8732e88250454207b23d45de7533333261f12041f1e63e5"
+      "sha256": "a6db7970af162ef8874dab0fb23b86915b66cdbc5067209861491b845c93ff5c"
     },
     {
       "source": "src/agent_baseline/metadata.py",
@@ -127,11 +127,11 @@
     },
     {
       "source": "src/agent_baseline/records.py",
-      "sha256": "54539ece34feca1db2ca0815cb569864fa8b60fa30aa9d3c07522112525f0970"
+      "sha256": "22ba95801923c1883d38fffc4f481ce971b34f0edc0958528bdb235de2312362"
     },
     {
       "source": "src/agent_baseline/skills.py",
-      "sha256": "8417a7d82d9f400515e99b569440eee00b38a64e6f83a5c341bc02766625a0fc"
+      "sha256": "ebd65c846ee8fe19d864839a43f6151fdf706f0a99877a8357ec6c3724027dba"
     },
     {
       "source": "src/agent_baseline/sources.py",
@@ -139,7 +139,7 @@
     },
     {
       "source": "tests/test_baseline.py",
-      "sha256": "93c378ad52ff179099c753348080689f9bdc78c68beaf156367a505a409b1979"
+      "sha256": "b63090b19da75e5eaadee8c595edba5e10433d56642f84f11dff79ae36b76831"
     },
     {
       "source": "tests/test_bootstrap.py",

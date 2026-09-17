@@ -2,7 +2,7 @@
 
 The CLI implementation is in `src/agent_baseline`: records owns typed evidence, execution owns processes, skills owns installation, and doctor owns structural guidance checks. The skill in `skills/baseline-project` owns the semantic authoring workflow; the CLI owns inventory, evidence hashes, input validation, and declared command execution. Keep the CLI independent of model APIs.
 
-Version 1 and 2 project records are defined in `skills/baseline-project/references/project-record.md`. Parse unknown JSON into the immutable `Source`, `Artifact`, `Check`, and `Baseline` types before domain operations. Update that reference and integration tests when the record contract changes.
+Version 1 and 2 project records are defined in `skills/baseline-project/references/project-record.md`. Parse unknown JSON into the immutable `Source`, `Artifact`, `Check`, and `Baseline` types before domain operations. Keep those types precise without widening them across module boundaries. Import `InvalidBaseline` from `errors`; do not re-export names, including for backwards compatibility. Update that reference and integration tests when the record contract changes.
 
 `check` never executes project commands. `record` never certifies correctness. `verify` must reject stale evidence before running commands and cannot report success when monitored inputs change during execution. Preserve distinct failed, timed-out, and blocked command results. Arguments are passed directly to subprocesses; never reinterpret them through a shell.
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -233,6 +234,28 @@ class BaselineTests(unittest.TestCase):
         self.assertTrue(report["monitored_inputs_changed"])
         self.assertIn("mutation", str(report["checks"]))
         self.assertIn("post_verification_error", report)
+
+
+class PackageImportTests(unittest.TestCase):
+    def test_sibling_modules_do_not_reexport_names(self) -> None:
+        root = Path(__file__).resolve().parents[1] / "src" / "agent_baseline"
+        pattern = re.compile(r"^from \.\w+ import (\w+) as \1\s*$", re.MULTILINE)
+        for path in sorted(root.glob("*.py")):
+            self.assertIsNone(pattern.search(path.read_text()), path.name)
+
+    def test_invalid_baseline_is_imported_from_errors(self) -> None:
+        root = Path(__file__).resolve().parents[1] / "src" / "agent_baseline"
+        for path in sorted(root.glob("*.py")):
+            if path.name == "errors.py":
+                continue
+            for line in path.read_text().splitlines():
+                stripped = line.strip()
+                if stripped.startswith("from ") and "InvalidBaseline" in stripped:
+                    self.assertEqual(
+                        stripped,
+                        "from .errors import InvalidBaseline",
+                        path.name,
+                    )
 
 
 if __name__ == "__main__":

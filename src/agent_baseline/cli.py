@@ -9,8 +9,8 @@ from pathlib import Path
 
 from .bootstrap import initialize, link_skill
 from .doctor import doctor
+from .errors import InvalidBaseline
 from .execution import execute, project_paths
-from .records import InvalidBaseline
 from .skills import Agent, Scope, install_skill, skill_files
 
 

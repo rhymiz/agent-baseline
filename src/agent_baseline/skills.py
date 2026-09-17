@@ -11,7 +11,8 @@ from importlib.metadata import version
 from importlib.resources import files
 from pathlib import Path
 
-from .records import InvalidBaseline, fields, read_json, string, within
+from .errors import InvalidBaseline
+from .records import fields, read_json, string, within
 
 
 class Agent(Enum):

@@ -11,8 +11,9 @@ from urllib.parse import unquote, urlsplit
 from markdown_it import MarkdownIt
 from markdown_it.token import Token
 
+from .errors import InvalidBaseline
 from .metadata import Skill, markdown_body, skill_metadata
-from .records import CONFIG, INSTRUCTIONS, InvalidBaseline, load_baseline, within
+from .records import CONFIG, INSTRUCTIONS, load_baseline, within
 from .skills import Agent
 
 
