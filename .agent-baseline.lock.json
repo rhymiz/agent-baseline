@@ -123,7 +123,7 @@
     },
     {
       "source": "src/agent_baseline/execution.py",
-      "sha256": "a6db7970af162ef8874dab0fb23b86915b66cdbc5067209861491b845c93ff5c"
+      "sha256": "5d689099ed1a5ccf8d4a39bdda083aa4620318d58e33783155f14d0e89adc426"
     },
     {
       "source": "src/agent_baseline/metadata.py",
@@ -143,7 +143,7 @@
     },
     {
       "source": "tests/test_baseline.py",
-      "sha256": "b63090b19da75e5eaadee8c595edba5e10433d56642f84f11dff79ae36b76831"
+      "sha256": "7f81c9dc5343d1b19e984c4aab2bcacfbd9fbb12097548c069dc4416dbc53be7"
     },
     {
       "source": "tests/test_bootstrap.py",
