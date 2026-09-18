@@ -1,10 +1,13 @@
 from __future__ import annotations
 
 import json
+import os
 import re
+import signal
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -149,6 +152,93 @@ class BaselineTests(unittest.TestCase):
         for status in ("failed", "blocked", "timed_out"):
             self.assertIn(status, str(report["checks"]))
 
+    def test_interrupted_verify_reaps_check_process_group(self) -> None:
+        if os.name != "posix":
+            self.skipTest("process-group cleanup is supported on POSIX")
+        program = """
+import os
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+root = Path.cwd()
+nested = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(60)"])
+(root / "check.pid").write_text(str(os.getpid()))
+(root / "nested.pid").write_text(str(nested.pid))
+(root / "ready").write_text("ready")
+time.sleep(60)
+"""
+        self.config["checks"] = [self.command("interrupt", program, timeout=60)]
+        self.write_config()
+        self.invoke("record")
+        verifier = subprocess.Popen(
+            [*CLI, "verify", str(self.root)],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+        )
+        self.addCleanup(self._cleanup_process, verifier)
+        self.addCleanup(self._cleanup_recorded_check_processes)
+        ready = self.root / "ready"
+        deadline = time.monotonic() + 10
+        while not ready.exists() and time.monotonic() < deadline:
+            if verifier.poll() is not None:
+                stdout, stderr = verifier.communicate()
+                self.fail(f"verifier exited before check was ready: {stdout}{stderr}")
+            time.sleep(0.05)
+        self.assertTrue(ready.exists(), "check process did not report readiness")
+        check_pid = int((self.root / "check.pid").read_text())
+        nested_pid = int((self.root / "nested.pid").read_text())
+
+        verifier.send_signal(signal.SIGINT)
+        stdout, stderr = verifier.communicate(timeout=10)
+        self.assertNotEqual(verifier.returncode, 0, stdout + stderr)
+        self.assertNotIn('"status": "passed"', stdout)
+        self.assertProcessExited(check_pid)
+        self.assertProcessExited(nested_pid)
+
+    def _cleanup_process(self, process: subprocess.Popen[str]) -> None:
+        if process.poll() is None:
+            process.kill()
+            process.wait(timeout=5)
+
+    def _cleanup_recorded_check_processes(self) -> None:
+        check_pid = self._read_pid("check.pid")
+        if check_pid is not None:
+            try:
+                os.killpg(check_pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            except PermissionError:
+                pass
+        for name in ("check.pid", "nested.pid"):
+            pid = self._read_pid(name)
+            if pid is None:
+                continue
+            try:
+                os.kill(pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            except PermissionError:
+                pass
+
+    def _read_pid(self, name: str) -> int | None:
+        path = self.root / name
+        if not path.exists():
+            return None
+        return int(path.read_text())
+
+    def assertProcessExited(self, pid: int) -> None:
+        deadline = time.monotonic() + 10
+        while time.monotonic() < deadline:
+            try:
+                os.kill(pid, 0)
+            except ProcessLookupError:
+                return
+            time.sleep(0.05)
+        self.fail(f"process {pid} survived interrupted verification")
+
     def test_check_is_read_only_and_uses_no_project_commands(self) -> None:
         self.config["checks"] = [
             self.command("sentinel", "from pathlib import Path; Path('ran').touch()")
@@ -196,7 +286,12 @@ class BaselineTests(unittest.TestCase):
         self.assertTrue(report["monitored_inputs_changed"])
 
     def test_inspect_respects_git_ignored_dependencies(self) -> None:
-        subprocess.run(["git", "init", "-q", str(self.root)], check=True)
+        git_env = {
+            key: value
+            for key, value in os.environ.items()
+            if key not in {"GIT_DIR", "GIT_INDEX_FILE", "GIT_WORK_TREE"}
+        }
+        subprocess.run(["git", "init", "-q", str(self.root)], check=True, env=git_env)
         (self.root / ".gitignore").write_text("ignored/\n")
         (self.root / "ignored").mkdir()
         (self.root / "ignored" / "AGENTS.md").write_text("ignore")

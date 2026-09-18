@@ -30,21 +30,37 @@ from .sources import Source
 def project_paths(root: Path) -> tuple[list[str], str]:
     if not root.is_dir():
         raise InvalidBaseline(f"Project directory does not exist: {root}")
+    git_env = {
+        key: value
+        for key, value in os.environ.items()
+        if key not in {"GIT_DIR", "GIT_INDEX_FILE", "GIT_WORK_TREE"}
+    }
     try:
-        git = subprocess.run(
-            [
-                "git",
-                "-C",
-                str(root),
-                "ls-files",
-                "--cached",
-                "--others",
-                "--exclude-standard",
-                "-z",
-            ],
+        top = subprocess.run(
+            ["git", "-C", str(root), "rev-parse", "--show-toplevel"],
             capture_output=True,
             check=False,
+            text=True,
+            env=git_env,
         )
+        if top.returncode == 0 and Path(top.stdout.strip()).resolve() == root.resolve():
+            git = subprocess.run(
+                [
+                    "git",
+                    "-C",
+                    str(root),
+                    "ls-files",
+                    "--cached",
+                    "--others",
+                    "--exclude-standard",
+                    "-z",
+                ],
+                capture_output=True,
+                check=False,
+                env=git_env,
+            )
+        else:
+            git = None
     except FileNotFoundError:
         git = None
     if git is not None and git.returncode == 0:
@@ -101,6 +117,13 @@ def inventory(root: Path) -> dict[str, object]:
     }
 
 
+def _kill_owned_process_group(process: subprocess.Popen[bytes]) -> None:
+    try:
+        os.killpg(process.pid, signal.SIGKILL)
+    except ProcessLookupError:
+        pass  # It exited between process status change and process-group cleanup.
+
+
 def run_check(root: Path, check: Check) -> dict[str, object]:
     with tempfile.TemporaryFile() as output:
         try:
@@ -118,13 +141,14 @@ def run_check(root: Path, check: Check) -> dict[str, object]:
             code = process.wait(timeout=check.timeout_seconds)
             status = "passed" if code == 0 else "failed"
         except subprocess.TimeoutExpired:
-            try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass  # It exited between the wait timeout and process-group cleanup.
+            _kill_owned_process_group(process)
             process.wait()
             code = process.returncode
             status = "timed_out"
+        except BaseException:
+            _kill_owned_process_group(process)
+            process.wait()
+            raise
         output.seek(0, os.SEEK_END)
         length = output.tell()
         output.seek(max(0, length - 8000))
