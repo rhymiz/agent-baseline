@@ -46,11 +46,11 @@ The CLI continues to read version 1 records and locks. Version 1 uses whole-file
 
 ## Commands and interpretation
 
-Use `uvx agent-baseline@0.4.2`, or the matching installed command:
+Use `uvx agent-baseline@0.4.3`, or the matching installed command:
 
-- `init <project> [--agent codex --agent claude]` installs persistent guidance, prepares selected discovery aliases, and creates an empty record only if no record exists. It preserves existing instructions and records; it does not mark anything reviewed.
+- `init <project> [--agent codex --agent claude --agent grok]` installs persistent guidance, prepares selected discovery aliases, and creates an empty record only if no record exists. It preserves existing instructions and records; it does not mark anything reviewed.
 - `inspect <project>` lists candidate paths. Git is optional; the filesystem fallback excludes common generated directories and does not interpret ignore files.
-- `doctor <project> [--agent codex --agent claude]` checks configured Markdown artifacts and their linked guidance. Without a configured artifact list it checks discovered instructions. Host flags additionally inspect installed entries in the native project skill directories even when artifacts do not link them. Use repeated `--path` arguments to restrict inspection to selected entrypoints and their links. Selected hosts require canonical skill discovery routes within that scope; Claude also requires root routing when `AGENTS.md` exists. No project commands execute.
+- `doctor <project> [--agent codex --agent claude --agent grok]` checks configured Markdown artifacts and their linked guidance. Without a configured artifact list it checks discovered instructions. Host flags additionally inspect installed entries in the native project skill directories even when artifacts do not link them. Use repeated `--path` arguments to restrict inspection to selected entrypoints and their links. Selected hosts require canonical skill discovery routes within that scope; Claude also requires root routing when `AGENTS.md` exists. Grok's native project route is `.grok/skills`; it already reads `AGENTS.md`. No project commands execute.
 - `record <project>` validates and stores the reviewed evidence hashes. Run it only after semantic review. It does not certify successful verification.
 - `check <project>` compares the hashes and reports changed evidence, affected guidance, and deleted source paths. No project commands execute.
 - `verify <project>` rejects stale evidence, runs built-in structural guidance checks, executes every declared project check, and verifies that monitored inputs stayed unchanged.

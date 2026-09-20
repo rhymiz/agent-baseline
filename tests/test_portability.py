@@ -7,6 +7,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from agent_baseline.skills import Agent
+
+HOST_FLAGS = [flag for agent in Agent for flag in ("--agent", agent.value)]
+HOSTS = {agent.value for agent in Agent}
+
 
 class PortableProjectTests(unittest.TestCase):
     def test_bootstrap_and_verification_do_not_require_a_project_language_runtime(self):
@@ -32,7 +37,11 @@ class PortableProjectTests(unittest.TestCase):
                 source.write_text(content)
                 original = f"# Project\nUse the [contract]({manifest}).\n"
                 (root / "AGENTS.md").write_text(original)
-                self.run_cli(root, "init", "--agent", "codex", "--agent", "claude")
+                self.run_cli(
+                    root,
+                    "init",
+                    *HOST_FLAGS,
+                )
                 self.assertEqual((root / "AGENTS.md").read_text(), original)
                 config = {
                     "schema_version": 2,
@@ -41,11 +50,14 @@ class PortableProjectTests(unittest.TestCase):
                 }
                 (root / ".agent-baseline.json").write_text(json.dumps(config))
                 doctor = self.run_cli(
-                    root, "doctor", "--agent", "codex", "--agent", "claude"
+                    root,
+                    "doctor",
+                    *HOST_FLAGS,
                 )
                 self.assertEqual(len(doctor["skills"]), 1)
                 self.assertEqual(
-                    set(doctor["skills"][0]["locations"]), {"codex", "claude"}
+                    set(doctor["skills"][0]["locations"]),
+                    HOSTS,
                 )
                 self.run_cli(root, "record")
                 report = self.run_cli(root, "verify")
@@ -53,7 +65,11 @@ class PortableProjectTests(unittest.TestCase):
                 self.assertEqual(report["guidance"]["status"], "passed")
                 # Bootstrap is idempotent even after a project record is configured.
                 before = (root / ".agent-baseline.json").read_bytes()
-                self.run_cli(root, "init", "--agent", "codex", "--agent", "claude")
+                self.run_cli(
+                    root,
+                    "init",
+                    *HOST_FLAGS,
+                )
                 self.assertEqual((root / ".agent-baseline.json").read_bytes(), before)
                 self.run_cli(root, "check")
 

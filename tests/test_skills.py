@@ -87,19 +87,19 @@ class SkillTests(unittest.TestCase):
                 self.assertNotIn(private.read_text(), output)
         self.assertEqual(list(self.root.iterdir()), [private])
 
-    def test_project_install_copies_complete_linked_guidance_for_both_hosts(
+    def test_project_install_copies_complete_linked_guidance_for_supported_hosts(
         self,
     ) -> None:
-        for agent, directory in (("codex", ".agents"), ("claude", ".claude")):
-            report = json.loads(self.install(agent))
-            destination = self.root / directory / "skills" / "baseline-project"
+        for agent in Agent:
+            report = json.loads(self.install(agent.value))
+            destination = self.root / agent.directory / "skills" / "baseline-project"
             self.assertEqual(report["status"], "installed")
             self.assertEqual(Path(report["destination"]), destination)
             skill = destination / "SKILL.md"
             for link in re.findall(r"\]\(([^)]+)\)", skill.read_text()):
                 self.assertTrue((destination / link).is_file(), link)
             self.assertFalse(any(path.is_symlink() for path in destination.rglob("*")))
-            self.assertEqual(json.loads(self.install(agent))["status"], "current")
+            self.assertEqual(json.loads(self.install(agent.value))["status"], "current")
 
     def test_user_scope_uses_home_and_leaves_project_untouched(self) -> None:
         with tempfile.TemporaryDirectory() as home:

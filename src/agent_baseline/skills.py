@@ -18,10 +18,15 @@ from .records import fields, read_json, string, within
 class Agent(Enum):
     CODEX = "codex"
     CLAUDE = "claude"
+    GROK = "grok"
 
     @property
     def directory(self) -> str:
-        return {Agent.CODEX: ".agents", Agent.CLAUDE: ".claude"}[self]
+        return {
+            Agent.CODEX: ".agents",
+            Agent.CLAUDE: ".claude",
+            Agent.GROK: ".grok",
+        }[self]
 
 
 class Scope(Enum):

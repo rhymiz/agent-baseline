@@ -4,7 +4,7 @@ The result is reviewed project guidance with supporting evidence and accurately 
 
 ## Establish relevant evidence
 
-For first-time setup, run `init <project>` and add `--agent codex` and/or `--agent claude` for the hosts requested. Initialization creates an unreviewed draft. For other hosts, supply the skill explicitly through `skill show` or direct file reading; do not guess host configuration. Link existing skills with `skill link <canonical-folder> --project <project> --agent <host>` to preserve one canonical copy.
+For first-time setup, run `init <project>` and add `--agent codex`, `--agent claude`, and/or `--agent grok` for the hosts requested. Initialization creates an unreviewed draft. For other hosts, supply the skill explicitly through `skill show` or direct file reading; do not guess host configuration. Link existing skills with `skill link <canonical-folder> --project <project> --agent <host>` to preserve one canonical copy.
 
 Use `inspect <project>` to locate candidate evidence. For setup, establish the relevant runtime versions, declared commands, CI entrypoints, test prerequisites, agent configuration, and domain ownership. For refresh, inspect the differences in changed monitored sources and trace them to affected guidance. Broaden reading when those changes cross another contract or ownership boundary.
 

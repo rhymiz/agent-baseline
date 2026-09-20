@@ -93,6 +93,31 @@ class DoctorTests(unittest.TestCase):
         self.assertEqual(report["issues"], [])
         self.assertIn("build-project", str(report["skills"]))
 
+    def test_grok_requires_native_skill_route(self) -> None:
+        self.write("AGENTS.md", "Project rules.\n")
+        self.skill()
+        report = self.invoke("--agent", "grok", expected=1)
+        self.assertIn("skill_not_discoverable", str(report["issues"]))
+        alias = self.root / ".grok/skills/build-project"
+        alias.parent.mkdir(parents=True)
+        alias.symlink_to("../../.agents/skills/build-project", target_is_directory=True)
+        passed = self.invoke("--agent", "grok")
+        self.assertEqual(passed["issues"], [])
+        locations = passed["skills"][0]["locations"]
+        if not isinstance(locations, dict):
+            self.fail("Expected host locations")
+        self.assertEqual(set(locations), {"grok"})
+
+    def test_unselected_host_directories_are_not_inspected(self) -> None:
+        self.write("AGENTS.md", "Project rules.\n")
+        self.skill()
+        with tempfile.TemporaryDirectory() as outside:
+            # An unrelated host directory that leaves the project must not
+            # affect a run that never selected that host.
+            (self.root / ".grok").symlink_to(outside, target_is_directory=True)
+            report = self.invoke("--agent", "codex")
+        self.assertEqual(report["issues"], [])
+
     def test_missing_host_and_commented_import_do_not_pass(self) -> None:
         self.write("AGENTS.md", "Project rules.\n")
         self.write("CLAUDE.md", "`@AGENTS.md`\n\n```\n@AGENTS.md\n```\n")
