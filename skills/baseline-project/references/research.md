@@ -3,7 +3,7 @@
 Reviewed 2026-09-17. Consult this reference when revising the authoring or
 evaluation method. Ordinary setup and engineering tasks do not need to load this
 literature. These sources inform design choices; none evaluates Agent Baseline
-0.4.2 or overrides explicit owner policy.
+0.4.3 or overrides explicit owner policy.
 
 ## What belongs in instructions
 

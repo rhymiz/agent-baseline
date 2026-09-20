@@ -7,6 +7,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from agent_baseline.skills import Agent
+
+HOST_FLAGS = [flag for agent in Agent for flag in ("--agent", agent.value)]
+
 
 class BootstrapTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -53,14 +57,32 @@ class BootstrapTests(unittest.TestCase):
         self.assertEqual((self.root / ".agent-baseline.json").read_text(), config)
         self.assertEqual((self.root / "CLAUDE.md").read_text(), "@AGENTS.md\n")
 
+    def test_grok_gets_native_skill_alias_without_claude_routing(self) -> None:
+        (self.root / "AGENTS.md").write_text("# Project\n")
+        self.invoke("init", ".", "--agent", "grok")
+        canonical = (self.root / ".agents/skills/baseline-project").resolve()
+        self.assertEqual(
+            (self.root / ".grok/skills/baseline-project").resolve(), canonical
+        )
+        self.assertFalse((self.root / "CLAUDE.md").exists())
+        self.invoke("doctor", ".", "--agent", "grok")
+
     def test_conflicting_destination_is_found_before_installation(self) -> None:
-        target = self.root / ".claude/skills/baseline-project"
-        target.mkdir(parents=True)
-        (target / "SKILL.md").write_text("User-owned guidance")
-        self.invoke("init", ".", "--agent", "claude", expected=2)
-        self.assertFalse((self.root / ".agents").exists())
-        self.assertFalse((self.root / ".agent-baseline.json").exists())
-        self.assertEqual((target / "SKILL.md").read_text(), "User-owned guidance")
+        # Codex installs into the canonical folder, so only aliased hosts apply.
+        for agent in (agent for agent in Agent if agent is not Agent.CODEX):
+            with self.subTest(agent=agent.value), tempfile.TemporaryDirectory(
+                prefix="baseline project "
+            ) as temp:
+                self.root = Path(temp).resolve()
+                target = self.root / agent.directory / "skills/baseline-project"
+                target.mkdir(parents=True)
+                (target / "SKILL.md").write_text("User-owned guidance")
+                self.invoke("init", ".", "--agent", agent.value, expected=2)
+                self.assertFalse((self.root / ".agents").exists())
+                self.assertFalse((self.root / ".agent-baseline.json").exists())
+                self.assertEqual(
+                    (target / "SKILL.md").read_text(), "User-owned guidance"
+                )
 
     def test_arbitrary_canonical_skill_can_be_linked_without_copying(self) -> None:
         source = self.root / "tooling/skills/team-engineering"
@@ -73,14 +95,12 @@ class BootstrapTests(unittest.TestCase):
             "skill",
             "link",
             "tooling/skills/team-engineering",
-            "--agent",
-            "codex",
-            "--agent",
-            "claude",
+            *HOST_FLAGS,
         )
-        for host in (".agents", ".claude"):
+        for agent in Agent:
             self.assertEqual(
-                (self.root / host / "skills/team-engineering").resolve(), source
+                (self.root / agent.directory / "skills/team-engineering").resolve(),
+                source,
             )
         (source / "guide.md").write_text("Updated canonical guidance.\n")
         self.assertEqual(

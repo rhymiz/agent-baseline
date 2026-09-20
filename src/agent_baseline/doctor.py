@@ -274,9 +274,10 @@ def doctor(
                 and path.lower().endswith(".md")
             ]
     if agents and not explicit_paths:
-        # A configured artifact list may omit installed skills. Inspect native
-        # project entries independently when host routing was requested.
-        for host in Agent:
+        # A configured artifact list may omit installed skills. Inspect the
+        # canonical folder and the selected hosts' native entries; other hosts'
+        # directories are outside the requested scope.
+        for host in dict.fromkeys((Agent.CODEX, *agents)):
             directory = within(root, f"{host.directory}/skills")
             if directory.is_dir():
                 for entry in sorted(directory.iterdir()):

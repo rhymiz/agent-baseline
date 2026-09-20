@@ -11,7 +11,7 @@
     },
     {
       "source": ".github/workflows/publish.yml",
-      "sha256": "fc3ea2090785e2c970c0669a29362b9354ff00e2e4f1c0acb1d47a4ac008b84e"
+      "sha256": "39f7f01ee845811f5834af026bf3c832ccd970dbb41e2e7ac479edb95572f75c"
     },
     {
       "source": "AGENTS.md",
@@ -19,7 +19,7 @@
     },
     {
       "source": "README.md",
-      "sha256": "ae09c3374fb1389f32e079f93e54d0f6a326b1eccb1d33e6855888bcc517b8d8"
+      "sha256": "8b68c6af94c2078e4f0bf404e1943146f358781714f653141bdc9f43d60db2e6"
     },
     {
       "source": "docs/acceptance.md",
@@ -67,11 +67,11 @@
     },
     {
       "source": "pyproject.toml",
-      "sha256": "5917437086d1c11d5a5544eda53d3b1562b1395de530b5f325820e3ac31e3a54"
+      "sha256": "cd315286ec4a9d0aae9ded3a80455366280f3d63c661e8506aa492a5b544ac2f"
     },
     {
       "source": "skills/baseline-project/SKILL.md",
-      "sha256": "75739d345df2b5a434eaef842a9d973e3f6b6e6781fd986373c362b1e33e1e37"
+      "sha256": "5eafb99c3810df2e096dfc60e29a4792b318cff8f80f02261c9b31102ffa1ac0"
     },
     {
       "source": "skills/baseline-project/references/audit.md",
@@ -83,7 +83,7 @@
     },
     {
       "source": "skills/baseline-project/references/maintain.md",
-      "sha256": "dace878c9d891f94427322c35f01ea27b16afc995b993380d3eaa6e8a13e92e8"
+      "sha256": "8abd873ab819c66489754c0fdcafcd8ed067ebed35e57d366361bd7657df447c"
     },
     {
       "source": "skills/baseline-project/references/outcomes.md",
@@ -91,11 +91,11 @@
     },
     {
       "source": "skills/baseline-project/references/project-record.md",
-      "sha256": "8527b2597560df5de5af5918ea07d93bc5838658eb8143db95d1ee89276afe1d"
+      "sha256": "2ab81098351421f72c087024d885179e8fdfa2d064a40c8a84fc60cd031ade52"
     },
     {
       "source": "skills/baseline-project/references/research.md",
-      "sha256": "20da1556bb91b261b242fc434e747e7600fb8c46101e0f806f0084924bc1b11b"
+      "sha256": "0821aea98628a067dc8729085257a5b7ec2d4290d0cc8e7b432d7d063fff1935"
     },
     {
       "source": "src/agent_baseline/__init__.py",
@@ -115,7 +115,7 @@
     },
     {
       "source": "src/agent_baseline/doctor.py",
-      "sha256": "56ebd8458969d65442c24801d4dcbb0529a8cb49556f6c5617d6cb9f282d7c3d"
+      "sha256": "000b129f3c8737b89ae77af82a5aee545fa5bfa4e2f58330a85669855e65e623"
     },
     {
       "source": "src/agent_baseline/errors.py",
@@ -135,7 +135,7 @@
     },
     {
       "source": "src/agent_baseline/skills.py",
-      "sha256": "ebd65c846ee8fe19d864839a43f6151fdf706f0a99877a8357ec6c3724027dba"
+      "sha256": "17bd8894788bab723f072570186a1ee917a45978c3113218c3599b99956e6594"
     },
     {
       "source": "src/agent_baseline/sources.py",
@@ -147,19 +147,19 @@
     },
     {
       "source": "tests/test_bootstrap.py",
-      "sha256": "956c7a6f9287b238b952c1ece2c80a6348fe5800dd40cccd4185fb9f9d8d33d0"
+      "sha256": "669c4ea389607976f25c15298ce74477404b6a64a8dbf26e58710252dc5304c6"
     },
     {
       "source": "tests/test_doctor.py",
-      "sha256": "5cf791c3c04839fad7c682dcc0e7364e962dc6a398e10d34f700855c9aff1bfb"
+      "sha256": "896e768e34a472629702c9b6698bbf8aed20fb62aab8e1a116c7083f0ce8d883"
     },
     {
       "source": "tests/test_portability.py",
-      "sha256": "ef3fbece6cb17aa2d8315da9e4d96c59e2ca68f116f5f9b9fd3b23d66761c697"
+      "sha256": "7c04c64195374f2cb6579d51fa3b4a5360d39086dfb22923297a050a36f28a23"
     },
     {
       "source": "tests/test_skills.py",
-      "sha256": "d74abbab7c888b0666c7b8a8db89089ebfd0eec94e0d473c403c03d27d437422"
+      "sha256": "543a28c85ba4089505ca7eb98e17b05d492604501846cbf12f0ba7671497357c"
     },
     {
       "source": "tests/test_sources.py",
