@@ -136,6 +136,7 @@ The package does not launch model APIs or claim performance scores. Evaluation r
 ```sh
 python3 -m pip install -e .
 python3 -m unittest discover -s tests -v
+uv run python -m unittest discover -s tests -v
 ```
 
 The implementation is in `src/agent_baseline`; canonical skill content is in `skills/baseline-project`. Runtime dependencies are `markdown-it-py` and `PyYAML` for their supported syntax and safe parsers. `uv tool install agent-baseline` is available for a persistent CLI installation.
